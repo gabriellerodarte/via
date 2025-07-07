@@ -21,6 +21,17 @@ class User(db.Model, UserMixin):
 
     trips = db.relationship('Trip', back_populates='user', cascade='all, delete-orphan')
 
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError('Password may not be viewed.')
+
+    @password_hash.setter
+    def password_hash(self, password):
+        self._password_hash = bcrypt.generate_password_hash(password.encode('utf-8')).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+
 class Trip(db.Model):
     __tablename__ = "trips"
 

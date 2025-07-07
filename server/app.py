@@ -9,10 +9,34 @@ from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
 from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema
 # Views go here!
+user_schema = UserSchema()
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+class Signup(Resource):
+    def post(self):
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return {'error': 'Username and password required'}, 400
+        
+        if User.query.filter_by(username=username).first():
+            return {'error': 'Username already taken'}, 400
+        
+        try:
+            new_user = User(username=username, password_hash=password)
+            db.session.add(new_user)
+            db.session.commit()
+
+            login_user(user)
+            return user_schema.dump(new_user), 201
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 500
 
 @app.route('/')
 def index():
