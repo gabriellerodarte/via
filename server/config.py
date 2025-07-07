@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_login import LoginManager
 from sqlalchemy import MetaData
 
 
@@ -21,9 +22,9 @@ db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
 ma = Marshmallow(app)
+login_manager = LoginManager(app)
+# login_manager.login_view = 'login'
 
 api = Api(app)
-
 CORS(app)
-
 bcrypt = Bcrypt(app)
