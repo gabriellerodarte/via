@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask-marshmallow import Marshmallow
 from sqlalchemy import MetaData
 
-# Local imports
 
 # Instantiate app, set attributes
 app = Flask(__name__)
