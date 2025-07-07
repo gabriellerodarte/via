@@ -23,3 +23,10 @@ class Trip(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates='trips')
+
+class Place(db.Model):
+    __tablename__ = "places"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    address = db.Column(db.String, unique=True, nullable=False)
