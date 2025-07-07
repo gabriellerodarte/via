@@ -6,7 +6,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 from models import User, Trip, Place, Event
-
+from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema
 # Views go here!
 
 @app.route('/')
