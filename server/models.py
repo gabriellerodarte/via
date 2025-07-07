@@ -36,7 +36,7 @@ class Trip(db.Model):
         db.CheckConstraint(
             "start_date <= end_date",
             name="check_start_date_before_end_date"
-        )
+        ),
     )
 
 class Place(db.Model):
