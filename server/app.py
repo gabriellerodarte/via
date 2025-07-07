@@ -32,11 +32,28 @@ class Signup(Resource):
             db.session.add(new_user)
             db.session.commit()
 
-            login_user(user)
+            login_user(new_user)
             return user_schema.dump(new_user), 201
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 500
+
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
+        username=data.get('username')
+        password=data.get('password')
+
+        user = User.query.filter_by(username=username).first()
+
+        if user:
+            if user.check_password(password):
+                login_user(user)
+                return user_schema.dump(user), 200
+            else:
+                return {'error': 'Invalid username'}, 401
+        else:
+            return {'error': 'Invalid password'}, 401
 
 @app.route('/')
 def index():
