@@ -2,6 +2,8 @@ import App from "./components/App";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 const routes = [
     {
@@ -14,11 +16,19 @@ const routes = [
             },
             {
                 path: "/signup",
-                element: <Signup/>
+                element: (
+                    <PublicRoute>
+                        <Signup/>
+                    </PublicRoute>
+                )
             },
             {
                 path: "/login",
-                element: <Login/>
+                element: (
+                    <PublicRoute>
+                        <Login/>
+                    </PublicRoute>
+                )
             }
         ]
     }
