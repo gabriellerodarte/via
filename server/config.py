@@ -23,7 +23,6 @@ migrate = Migrate(app, db)
 db.init_app(app)
 ma = Marshmallow(app)
 login_manager = LoginManager(app)
-# login_manager.login_view = 'login'
 
 api = Api(app)
 CORS(app)

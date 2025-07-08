@@ -55,13 +55,22 @@ class Login(Resource):
         else:
             return {'error': 'Invalid password'}, 401
 
+class CheckSession(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            return {'error': 'User not logged in'}, 401
+
+        return user_schema.dump(current_user), 200
+
+
+
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, 'login', endpoint='login')
-
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
