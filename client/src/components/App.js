@@ -1,24 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import NavBar from "./NavBar";
 
 function App() {
   const { user, loading } = useContext(UserContext)
   
   if (loading) {
+    // insert Loading spinner or page or something
     return <p>Loading user session...</p>
   }
-  
+
   return (
     <div>
       <header>
-        {/* NavBar component */}
+        {user && <NavBar/>}
       </header>
       <main>
-        <h1>APP COMPONENT</h1>
+        <Outlet/>
         {/* Outlet and any conditional rendering if loading? */}
       </main>
       <footer>
+        {user && <h1>Built by someone</h1>}
         {/* App footnote reliant on if user logged in */}
       </footer>
     </div>
