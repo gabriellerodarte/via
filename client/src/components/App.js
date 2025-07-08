@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 function App() {
+  const { user, loading } = useContext(UserContext)
+  
+  if (loading) {
+    return <p>Loading user session...</p>
+  }
   
   return (
     <div>
