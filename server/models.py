@@ -3,6 +3,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
+from datetime import date, datetime
 
 from config import db, bcrypt
 
@@ -20,6 +21,12 @@ class User(db.Model, UserMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     trips = db.relationship('Trip', back_populates='user', cascade='all, delete-orphan')
+
+    @validates("username")
+    def validate_username(self, key, value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Username must be a non-empty string.")
+        return value
 
     @hybrid_property
     def password_hash(self):
@@ -53,6 +60,25 @@ class Trip(db.Model):
         ),
     )
 
+    @validates("user_id")
+    def validate_user(self, key, user_id):
+        if not db.session.get(User, user_id):
+            raise ValueError("User not found.")
+        return user_id
+
+
+    @validates("name")
+    def validate_name(self, key, value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Trip name is required and must be a string.")
+        return value.strip()
+
+    @validates("start_date", "end_date")
+    def validate_dates(self, key, value):
+        if not isinstance(value, date):
+            raise ValueError(f'{key} is required and must be a valid date object.')
+        return value
+
 class Place(db.Model):
     __tablename__ = "places"
 
@@ -62,6 +88,18 @@ class Place(db.Model):
 
     events = db.relationship('Event', back_populates='place')
     trips = db.relationship('Trip', secondary=trip_place_association, back_populates='places')
+
+    @validates("name")
+    def validate_place_name(self, key, value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Place name is required and must be a string.")
+        return value.strip()
+
+    @validates("address")
+    def validate_address(self, key, value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Address is required and must be a string.")
+        return value.strip()
 
 class Event(db.Model):
     __tablename__ = "events"
@@ -88,3 +126,34 @@ class Event(db.Model):
             name='check_start_time_before_end_time_or_null'
         ),
     )
+
+    @validates("title")
+    def validate_title(self, key, value):
+        if not value or not isinstance(value, str):
+            raise ValueError("Event title is required and must be a string.")
+        return value.strip()
+
+    @validates("planning_status")
+    def validate_status(self, key, value):
+        allowed = ["tentative", "confirmed"]
+        if value not in allowed:
+            raise ValueError("Planning status must be 'tentative' or 'confirmed'.")
+        return value
+
+    @validates("start_time", "end_time")
+    def validate_event_times(self, key, value):
+        if value is not None and not isinstance(value, datetime):
+            raise ValueError(f'{key} must be a valid datetime or null.')
+        return value
+
+    @validates("trip_id")
+    def validate_trip(self, key, trip_id):
+        if not db.session.get(Trip, trip_id):
+            raise ValueError("Trip not found.")
+        return trip_id
+
+    @validates("place_id")
+    def validate_place(self, key, place_id):
+        if not db.session.get(Place, place_id):
+            raise ValueError("Place not found.")
+        return place_id

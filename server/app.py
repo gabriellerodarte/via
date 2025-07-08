@@ -8,7 +8,7 @@ from flask_login import current_user, login_user, logout_user
 from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
 from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema
-# Views go here!
+
 user_schema = UserSchema()
 place_schema = PlaceSchema()
 places_schema = PlaceSchema(many=True)
