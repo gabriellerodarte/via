@@ -12,15 +12,18 @@ function UserProvider({ children }) {
             const r = await fetch('/check_session')
             if (r.ok) {
                 const data = await r.json()
-                console.log(data)
-                setUser(data)
+                setUser({
+                    id: data.id,
+                    username: data.username
+                })
+                setUserTrips(data.trips)
             } else {
                 setUser(null)
             }
         } catch (err) {
-            console.log("Error checking session:", err)
+            console.log("Something went wrong checking your session.")
             setUser(null)
-            throw err
+            setUserTrips(null)
         } finally {
             setLoading(false)
         }
@@ -41,14 +44,19 @@ function UserProvider({ children }) {
             })
             if (r.ok) {
                 const data = await r.json()
-                console.log(data)
-                setUser(data)
+                setUser({
+                    id: data.id,
+                    username: data.username
+                })
+                setUserTrips(data.trips)
+                return { success: true, data }
             } else {
-                setUser(null)
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Signup failed." }
             }
         } catch (err) {
             console.log("Error signing up user:", err)
-            setUser(null)
+            return { success: false, error: "An unexpected error occurred during signup."}
         }
     }
 

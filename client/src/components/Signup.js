@@ -31,10 +31,14 @@ function Signup() {
                 initialValues={initialValues}
                 validationSchema={SignupSchema}
                 onSubmit={async (values, { setSubmitting, setErrors }) => {
-                    // fetch request - signup
                     try {
-                        await signupUser(values)
-                        navigate("/")
+                        const result = await signupUser(values)
+                        if (result.success) {
+                            console.log("Signup successful!")
+                            navigate("/")
+                        } else {
+                            setErrors({ general: result.error})
+                        }
                     } catch (err) {
                         setErrors({ general: err.message })
                     } finally {
@@ -58,6 +62,7 @@ function Signup() {
                         <ErrorMessage name="confirmPassword" component="div" className="error"/>
 
                         {errors.general && <div className="error">{errors.general}</div>}
+                        
                         <div>
                             <button type="submit">Sign Up</button>
                         </div>
