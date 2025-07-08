@@ -135,6 +135,48 @@ class EventResource(Resource):
             db.session.rollback()
             return {'error': str(e)}, 500
             
+class EventById(Resource):
+    @login_required
+    def patch(self, id):
+        event = Event.query.filter_by(id=id).first()
+
+        if not event:
+            return {'error': 'Event not found'}, 404
+
+        if current_user.id != event.trip.user_id:
+            return {'error': 'Unauthorized to access this resource'}, 403
+        
+        try:
+            data = request.get_json()
+            for attr, value in data.items():
+                setattr(event, attr, value)
+            
+            db.session.add(event)
+            db.session.commit()
+
+            return event_schema.dump(event), 200
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 500
+    
+    @login_required
+    def delete(self, id):
+        event = Event.query.filter_by(id=id).first()
+
+        if not event:
+            return {'error': 'Event not found'}, 404
+
+        if current_user.id != event.trip.user_id:
+            return {'error': 'Unauthorized to access this resource'}, 403
+        
+        try:
+            db.session.delete(event)
+            db.session.commit()
+
+            return {}, 204
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 500
 
 @app.route('/')
 def index():
@@ -146,6 +188,7 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(PlaceResource, '/places', endpoint='places')
 api.add_resource(EventResource, '/events', endpoint='events')
+api.add_resource(EventById, '/events/<int:id>', endpoint='event_by_id')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
