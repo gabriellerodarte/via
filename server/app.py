@@ -51,9 +51,9 @@ class Login(Resource):
                 login_user(user)
                 return user_schema.dump(user), 200
             else:
-                return {'error': 'Invalid username'}, 401
+                return {'error': 'Invalid password'}, 401
         else:
-            return {'error': 'Invalid password'}, 401
+            return {'error': 'Invalid username'}, 401
 
 class CheckSession(Resource):
     def get(self):
@@ -62,6 +62,11 @@ class CheckSession(Resource):
 
         return user_schema.dump(current_user), 200
 
+class Logout(Resource):
+    def delete(self):
+        logout_user()
+        return {}, 204
+
 
 
 @app.route('/')
@@ -69,9 +74,9 @@ def index():
     return '<h1>Project Server</h1>'
 
 api.add_resource(Signup, '/signup', endpoint='signup')
-api.add_resource(Login, 'login', endpoint='login')
+api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-
