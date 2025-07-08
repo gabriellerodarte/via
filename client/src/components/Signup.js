@@ -1,10 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 function Signup() {
-    // signup context 
+    const { signupUser } = useContext(UserContext)
     const navigate = useNavigate()
 
     const SignupSchema = Yup.object().shape({
@@ -29,28 +30,39 @@ function Signup() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={SignupSchema}
-                onSubmit={(values, { resetForm, setErrors }) => {
+                onSubmit={async (values, { setSubmitting, setErrors }) => {
                     // fetch request - signup
+                    try {
+                        await signupUser(values)
+                        navigate("/")
+                    } catch (err) {
+                        setErrors({ general: err.message })
+                    } finally {
+                        setSubmitting(false)
+                    }
                 }}
             >
-                <Form>
-                    <label htmlFor="username">Username</label>
-                    <Field name="username" type="text"/>
-                    <ErrorMessage name="username" component="div" className="error"/>
+                {({ errors }) => (
+                    <Form>
+                        <label htmlFor="username">Username</label>
+                        <Field name="username" type="text"/>
+                        <ErrorMessage name="username" component="div" className="error"/>
 
-                    <label htmlFor="password">Password</label>
-                    <Field name="password" type="password"/>
-                    <ErrorMessage name="password" component="div" className="error"/>
+                        <label htmlFor="password">Password</label>
+                        <Field name="password" type="password"/>
+                        <ErrorMessage name="password" component="div" className="error"/>
 
 
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <Field name="confirmPassword" type="password"/>
-                    <ErrorMessage name="confirmPassword" component="div" className="error"/>
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <Field name="confirmPassword" type="password"/>
+                        <ErrorMessage name="confirmPassword" component="div" className="error"/>
 
-                    <div>
-                        <button type="submit">Sign Up</button>
-                    </div>
-                </Form>
+                        {errors.general && <div className="error">{errors.general}</div>}
+                        <div>
+                            <button type="submit">Sign Up</button>
+                        </div>
+                    </Form>
+                )}
             </Formik>
             <NavLink to="/login">Already have an account?</NavLink>
         </div>

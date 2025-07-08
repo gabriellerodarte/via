@@ -35,7 +35,8 @@ class Signup(Resource):
             return {'error': 'Username already taken'}, 400
         
         try:
-            new_user = User(username=username, password_hash=password)
+            new_user = User(username=username)
+            new_user.password_hash = password
             db.session.add(new_user)
             db.session.commit()
 
