@@ -1,9 +1,14 @@
+import { Link } from "react-router-dom"
 
 
 function PublicHome() {
 
     return (
-        <h1>PUBLIC HOME PAGE</h1>
+        <div>
+            <p>Your next trip begins here.</p>
+            <Link to="/login">Log In</Link>
+            <Link to="/signup">Sign Up</Link>
+        </div>
     )
 }
 

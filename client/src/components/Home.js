@@ -13,7 +13,7 @@ function Home() {
 
     return (
         <div>
-            <h1>HOME COMPONENT</h1>
+            <h1>via.</h1>
             {user ? <Dashboard/> : <PublicHome/>}
         </div>
     )
