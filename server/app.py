@@ -3,7 +3,7 @@
 # Remote library imports
 from flask import request, session
 from flask_restful import Resource
-from flask_login import current_user, login_user, logout_user
+from flask_login import login_required, current_user, login_user, logout_user
 # Local imports
 from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
@@ -78,6 +78,8 @@ class PlaceResource(Resource):
         try:
             places = Place.query.all()
             return places_schema.dump(places), 200
+        except Exception as e:
+            return {'error': str(e)}, 500
     
     @login_required
     def post(self):
