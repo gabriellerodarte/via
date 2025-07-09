@@ -22,12 +22,6 @@ def load_user(user_id):
 def unauthorized():
     return {'error': 'Unauthorized: Please login'}, 401
 
-@app.route('/test_login')
-def test_login():
-    user = User.query.first()
-    login_user(user)
-    return "Logged in test user."
-
 class Signup(Resource):
     def post(self):
         data = request.get_json()
