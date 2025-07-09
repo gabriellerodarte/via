@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import NavBar from "./NavBar";
+import { Plane } from "lucide-react";
 
 function App() {
   const { user, loading } = useContext(UserContext)
@@ -20,7 +21,7 @@ function App() {
         <Outlet/>
       </main>
       <footer>
-        {user && <p>Planned by {user.username} ‍✈️</p>}
+        {user && <p>Planned by {user.username} <Plane size={18}/></p>}
       </footer>
     </div>
   )
