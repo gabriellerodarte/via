@@ -109,6 +109,10 @@ function UserProvider({ children }) {
         }
     }
 
+    const createTrip = async (values) => {
+        return
+    }
+
     return (
         <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser }}>
             {children}
