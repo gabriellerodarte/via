@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import Places from "./components/Places";
 
 const routes = [
     {
@@ -28,6 +29,14 @@ const routes = [
                     <PublicRoute>
                         <Login/>
                     </PublicRoute>
+                )
+            },
+            {
+                path: "/places",
+                element: (
+                    <PrivateRoute>
+                        <Places/>
+                    </PrivateRoute>
                 )
             }
         ]
