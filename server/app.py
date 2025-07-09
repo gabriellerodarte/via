@@ -74,6 +74,35 @@ class Logout(Resource):
         logout_user()
         return {}, 204
 
+class TripResource(Resource):
+    @login_required
+    def post(self):
+        data = request.get_json()
+        name = data.get('name')
+        start_date = data.get('start_date')
+        end_date = data.get('end_date')
+        
+        if not name or not start_date or not end_date:
+            return {'error': 'Trip name, start_date and end_date are required'}, 400
+
+        if start_date and end_date and start_date >= end_date:
+            return {'error': 'Start date must be before end date'}, 400
+
+        try:
+            new_trip = Trip(
+                name=name, 
+                start_date=start_date,
+                end_date=end_date, 
+                user_id=current_user.id, 
+            )
+            db.session.add(new_trip)
+            db.session.commit()
+
+            return trip_schema.dump(new_trip), 200
+        except Exception as e:
+            return {'error': str(e)}, 500            
+            
+
 class PlaceResource(Resource):
     @login_required
     def get(self):
@@ -186,6 +215,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(TripResource, '/trips', endpoint='trips')
 api.add_resource(PlaceResource, '/places', endpoint='places')
 api.add_resource(EventResource, '/events', endpoint='events')
 api.add_resource(EventById, '/events/<int:id>', endpoint='event_by_id')
