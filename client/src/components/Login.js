@@ -18,7 +18,6 @@ function Login() {
         password: ""
     }
 
-
     return (
         <div>
             <h1>via.</h1>

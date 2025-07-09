@@ -22,6 +22,12 @@ def load_user(user_id):
 def unauthorized():
     return {'error': 'Unauthorized: Please login'}, 401
 
+@app.route('/test_login')
+def test_login():
+    user = User.query.first()
+    login_user(user)
+    return "Logged in test user."
+
 class Signup(Resource):
     def post(self):
         data = request.get_json()
@@ -43,7 +49,6 @@ class Signup(Resource):
             login_user(new_user)
             return user_schema.dump(new_user), 201
         except Exception as e:
-            db.session.rollback()
             return {'error': str(e)}, 500
 
 class Login(Resource):
@@ -98,7 +103,6 @@ class PlaceResource(Resource):
 
             return place_schema.dump(new_place), 201
         except Exception as e:
-            db.session.rollback()
             return {'error': str(e)}, 500
 
 class EventResource(Resource):
@@ -135,7 +139,6 @@ class EventResource(Resource):
 
             return event_schema.dump(new_event), 200
         except Exception as e:
-            db.session.rollback()
             return {'error': str(e)}, 500
             
 class EventById(Resource):
@@ -159,7 +162,6 @@ class EventById(Resource):
 
             return event_schema.dump(event), 200
         except Exception as e:
-            db.session.rollback()
             return {'error': str(e)}, 500
     
     @login_required
@@ -178,7 +180,6 @@ class EventById(Resource):
 
             return {}, 204
         except Exception as e:
-            db.session.rollback()
             return {'error': str(e)}, 500
 
 @app.route('/')

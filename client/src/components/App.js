@@ -18,11 +18,9 @@ function App() {
       </header>
       <main>
         <Outlet/>
-        {/* Outlet and any conditional rendering if loading? */}
       </main>
       <footer>
-        {user && <h1>Built by someone</h1>}
-        {/* App footnote reliant on if user logged in */}
+        {user && <p>Planned by {user.username} ‍✈️</p>}
       </footer>
     </div>
   )

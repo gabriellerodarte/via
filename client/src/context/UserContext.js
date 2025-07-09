@@ -9,7 +9,9 @@ function UserProvider({ children }) {
 
     const checkSession = async () => {
         try {
-            const r = await fetch('/check_session')
+            const r = await fetch('/check_session', {
+                credentials: 'include'
+            })
             if (r.ok) {
                 const data = await r.json()
                 setUser({
@@ -40,6 +42,7 @@ function UserProvider({ children }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(values)
             })
             if (r.ok) {
@@ -67,6 +70,7 @@ function UserProvider({ children }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(values)
             })
             if (r.ok) {
@@ -89,6 +93,7 @@ function UserProvider({ children }) {
         try {
             const r = await fetch(`/logout`, {
                 method: 'DELETE',
+                credentials: 'include'
             })
             if (r.ok) {
                 setUser(null)
