@@ -60,6 +60,31 @@ function UserProvider({ children }) {
         }
     }
 
+    const loginUser = async (values) => {
+        try {
+            const r = await fetch(`/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+            })
+            if (r.ok) {
+                const data = await r.json()
+                setUser({
+                    id: data.id,
+                    username: data.username
+                })
+                setUserTrips(data.trips)
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error}
+            }
+        } catch (err) {
+            return { success: false, error: "An unexpected error occured during login."}
+        }
+    }
+
     const logoutUser = async () => {
         try {
             const r = await fetch(`/logout`, {
@@ -80,7 +105,7 @@ function UserProvider({ children }) {
     }
 
     return (
-        <UserContext.Provider value={{ user, userTrips, loading, signupUser, logoutUser }}>
+        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser }}>
             {children}
         </UserContext.Provider>
     )

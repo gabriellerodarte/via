@@ -1,7 +1,7 @@
+import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 function Signup() {
@@ -24,7 +24,7 @@ function Signup() {
 
     return (
         <div>
-            <h1>via.</h1>
+            <h1 onClick={() => navigate("/")}>via.</h1>
             <h3>Sign up to start browsing places<br/>and plan your next trip.</h3>
 
             <Formik
@@ -62,7 +62,7 @@ function Signup() {
                         <ErrorMessage name="confirmPassword" component="div" className="error"/>
 
                         {errors.general && <div className="error">{errors.general}</div>}
-                        
+
                         <div>
                             <button type="submit">Sign Up</button>
                         </div>
