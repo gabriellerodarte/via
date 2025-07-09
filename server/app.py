@@ -4,12 +4,14 @@
 from flask import request, session
 from flask_restful import Resource
 from flask_login import login_required, current_user, login_user, logout_user
+from datetime import datetime
 # Local imports
 from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
 from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema
 
 user_schema = UserSchema()
+trip_schema = TripSchema()
 place_schema = PlaceSchema()
 places_schema = PlaceSchema(many=True)
 event_schema = EventSchema()
@@ -73,14 +75,14 @@ class Logout(Resource):
     def delete(self):
         logout_user()
         return {}, 204
-
+        
 class TripResource(Resource):
     @login_required
     def post(self):
         data = request.get_json()
         name = data.get('name')
-        start_date = data.get('start_date')
-        end_date = data.get('end_date')
+        start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d').date()
+        end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d').date()
         
         if not name or not start_date or not end_date:
             return {'error': 'Trip name, start_date and end_date are required'}, 400

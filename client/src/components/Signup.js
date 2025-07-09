@@ -34,7 +34,6 @@ function Signup() {
                     try {
                         const result = await signupUser(values)
                         if (result.success) {
-                            console.log("Signup successful!")
                             navigate("/")
                         } else {
                             setErrors({ general: result.error})

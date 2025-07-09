@@ -110,11 +110,31 @@ function UserProvider({ children }) {
     }
 
     const createTrip = async (values) => {
-        return
+        try {
+            const r = await fetch(`/trips`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(values)
+            })
+            if (r.ok) {
+                const data = await r.json()
+                setUserTrips(prev => [...prev, data])
+                return { success: true }
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Failed to create trip." }
+            }
+        } catch (err) {
+            console.log("Error creating trip:", err)
+            return { success: false, error: "An unexpected error occurred while creating trip. Please try again."}
+        }
     }
 
     return (
-        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser }}>
+        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip }}>
             {children}
         </UserContext.Provider>
     )
