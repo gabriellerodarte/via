@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const PlaceContext = React.createContext()
 
 function PlaceProvider({ children }) {
     const [places, setPlaces] = useState([])
 
-    const getPlaces = async () => {
+    const getPlaces = useCallback(async () => {
         try {
             const r = await fetch(`/places`, {
                 credentials: 'include'
@@ -13,6 +13,7 @@ function PlaceProvider({ children }) {
             if (r.ok) {
                 const data = await r.json()
                 setPlaces(data)
+                return { success: true }
             } else {
                 const errorData = await r.json()
                 return { success: false, error: errorData.error || "Failed to fetch places." }
@@ -21,7 +22,8 @@ function PlaceProvider({ children }) {
             console.log("Error fetching places:", err)
             return { success: false, error: "An unexpected error occurred while fetching places."}
         }
-    }
+
+    }, [])
 
     return (
         <PlaceContext.Provider value={{ places, getPlaces }}>

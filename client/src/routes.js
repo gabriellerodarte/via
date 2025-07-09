@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import Places from "./components/Places";
+import MyTrips from "./components/MyTrips";
 
 const routes = [
     {
@@ -36,6 +37,14 @@ const routes = [
                 element: (
                     <PrivateRoute>
                         <Places/>
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/my-trips",
+                element: (
+                    <PrivateRoute>
+                        <MyTrips/>
                     </PrivateRoute>
                 )
             }
