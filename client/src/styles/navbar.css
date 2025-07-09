@@ -90,5 +90,7 @@
 
 .error-message {
   color: #d33;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  padding-left: 2rem;
 }

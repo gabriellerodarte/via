@@ -65,6 +65,8 @@ class Login(Resource):
 class CheckSession(Resource):
     @login_required
     def get(self):
+        print("Is authenticated: ", current_user.is_authenticated)
+        print("Current user: ", current_user)
         return user_schema.dump(current_user), 200
 
 class Logout(Resource):

@@ -25,7 +25,7 @@ function Signup() {
     return (
         <div>
             <h1 onClick={() => navigate("/")}>via.</h1>
-            <h3>Sign up to start browsing places<br/>and plan your next trip.</h3>
+            <p>Sign up to start exploring places<br/>and plan your next trip!</p>
 
             <Formik
                 initialValues={initialValues}

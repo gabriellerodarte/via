@@ -105,7 +105,7 @@ function UserProvider({ children }) {
             }
         } catch (err) {
             console.log("Error during logout:", err)
-            return { success: false, error: "An unexpected error occurred during logout."}
+            return { success: false, error: "An unexpected error occurred during logout. Please try again."}
         }
     }
 
