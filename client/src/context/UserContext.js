@@ -60,8 +60,27 @@ function UserProvider({ children }) {
         }
     }
 
+    const logoutUser = async () => {
+        try {
+            const r = await fetch(`/logout`, {
+                method: 'DELETE',
+            })
+            if (r.ok) {
+                setUser(null)
+                setUserTrips([])
+                return { success: true }
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Failed to log out." }
+            }
+        } catch (err) {
+            console.log("Error during logout:", err)
+            return { success: false, error: "An unexpected error occurred during logout."}
+        }
+    }
+
     return (
-        <UserContext.Provider value={{ user, userTrips, loading, signupUser }}>
+        <UserContext.Provider value={{ user, userTrips, loading, signupUser, logoutUser }}>
             {children}
         </UserContext.Provider>
     )
