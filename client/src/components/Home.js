@@ -14,7 +14,6 @@ function Home() {
 
     return (
         <div>
-            <h1><Compass size={30} style={{ marginRight: '0.4rem', color: "#b3e5fc" }}/> via.</h1>
             {user ? <Dashboard/> : <PublicHome/>}
         </div>
     )

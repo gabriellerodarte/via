@@ -1,13 +1,46 @@
-
+import { useContext } from "react"
+import { getCurrentTrips, getUpcomingTrips } from "../utils/tripFilters"
+import { UserContext } from "../context/UserContext"
+import { NavLink } from "react-router-dom"
+import TripCard from "./TripCard"
+import "../styles/dashboard.css"
 
 function Dashboard() {
+    const { userTrips } = useContext(UserContext)
+
+    const currentTrips = getCurrentTrips(userTrips || [])
+    const upcomingTrips = getUpcomingTrips(userTrips || [])
+    
 
     return (
-        <div>
-            <h2>Welcome back!</h2>
-            <p>Your next trip begins here.</p>
-            {/* trip info */}
-        </div>
+            <div className="dashboard">
+                <section className="welcome-banner">
+                    <h1>Welcome back!</h1>
+                    {currentTrips[0] ? (
+                    <p>Your current trip: <strong>{currentTrips[0].name}!</strong></p>
+                    ) : upcomingTrips[0] ? (
+                    <p>Your next trip: <strong>{upcomingTrips[0].name}</strong></p>
+                    ) : (
+                    <p>No trips planned yet - your next trip begins here. <NavLink to="/new-trip">Plan one →</NavLink></p>
+                    )}
+                </section>
+
+                <div className="dashboard-grid">
+                    {currentTrips.length > 0 && (
+                    <div className="dashboard-panel">
+                        <h2>Current Trip</h2>
+                        {currentTrips.map(trip => <TripCard key={trip.id} trip={trip} />)}
+                    </div>
+                    )}
+
+                    {upcomingTrips.length > 0 && (
+                    <div className="dashboard-panel">
+                        <h2>Upcoming Trips</h2>
+                        {upcomingTrips.map(trip => <TripCard key={trip.id} trip={trip} />)}
+                    </div>
+                    )}
+                </div>
+            </div>
     )
 }
 

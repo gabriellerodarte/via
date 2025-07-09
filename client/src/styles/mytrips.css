@@ -1,0 +1,27 @@
+.trip-sections-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem;
+}
+
+.trip-section h2 {
+  font-size: 1.3rem;
+  color: #4b9ed6;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #b3e5fc;
+  padding-bottom: 0.25rem;
+}
+
+.trip-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.placeholder {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 1rem;
+}
