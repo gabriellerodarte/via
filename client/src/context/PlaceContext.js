@@ -25,8 +25,32 @@ function PlaceProvider({ children }) {
 
     }, [])
 
+    const createPlace = async (values) => {
+        try {
+            const r = await fetch(`/places`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(values)
+            })
+            if (r.ok) {
+                const data = await r.json()
+                setPlaces(prev => [...prev, data])
+                return { success: true }
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Failed to add place." }
+            }
+        } catch (err) {
+            console.log("Error adding place:", err)
+            return { success: false, error: "An unexpected error occurred while adding place."}
+        }
+    }
+
     return (
-        <PlaceContext.Provider value={{ places, getPlaces }}>
+        <PlaceContext.Provider value={{ places, getPlaces, createPlace }}>
             {children}
         </PlaceContext.Provider>
     )

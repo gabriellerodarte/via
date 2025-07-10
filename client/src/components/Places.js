@@ -20,6 +20,15 @@ function Places() {
     return (
         <div>
             <NewPlaceForm/>
+            <ul>
+                {places && places.map(p => (
+                    <li>
+
+                        <h5>{p.name}</h5>
+                        <p>{p.address}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

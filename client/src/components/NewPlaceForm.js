@@ -2,8 +2,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { MapPin, Asterisk } from "lucide-react";
 import "../styles/newplaceform.css"
+import { useContext } from "react";
+import { PlaceContext } from "../context/PlaceContext";
 
 function NewPlaceForm() {
+    const { createPlace } = useContext(PlaceContext)
 
     const PlaceSchema = Yup.object().shape({
         name: Yup.string().required("Place name is required"),
@@ -21,19 +24,19 @@ function NewPlaceForm() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={PlaceSchema}
-                onSubmit={async (values, { setSubmitting, setErrors }) => {
-                    // try {
-                    //     const result = await createPlace(values)
-                    //     if (result.success) {
-                    //         console.log("Place successfully created!")
-                    //     } else {
-                    //         setErrors({ general: result.error })
-                    //     }
-                    // } catch (err) {
-                    //     setErrors({ general: err.error })
-                    // } finally {
-                    //     setSubmitting(false)
-                    // }
+                onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+                    try {
+                        const result = await createPlace(values)
+                        if (result.success) {
+                            console.log("Place successfully created!")
+                        } else {
+                            setErrors({ general: result.error })
+                        }
+                    } catch (err) {
+                        setErrors({ general: err.error })
+                    } finally {
+                        setSubmitting(false)
+                    }
                 }}
             >
                 {({ errors }) => (
