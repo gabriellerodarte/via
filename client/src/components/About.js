@@ -17,13 +17,13 @@ function About() {
                 <h2>Features</h2>
                 <ul className="feature-list">
                     <li>
-                        <CalendarDays size={18} /> <span>Create Custom<br/> Trips</span>
+                        <CalendarDays size={18} /> <span><strong>Create</strong><br/> Custom Trips</span>
                     </li>
                     <li>
-                        <MapPin size={18} /> <span>Add & Explore<br/> Places</span>
+                        <MapPin size={18} /> <span><strong>Explore</strong><br/> New Places</span>
                     </li>
                     <li>
-                        <Plane size={18} /> <span>Organize by<br/> Timeline</span>
+                        <Plane size={18} /> <span><strong>Organize</strong><br/> by Timeline</span>
                     </li>
                     <li>
                         <User size={18} /> <span>Your Plans,<br/> <strong>Your Way</strong></span>
