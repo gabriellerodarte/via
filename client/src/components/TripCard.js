@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { formatTripDates } from "../utils/formatDates";
 import { CalendarDays } from "lucide-react"
 
 function TripCard({ trip, index }) {
-    const { name, start_date, end_date } = trip
+    const { id, name, start_date, end_date } = trip
     const formattedDates = formatTripDates(start_date, end_date)
+    const navigate = useNavigate()
 
     const mapImages = [
         "/images/trip-icons/map1.png",
@@ -15,7 +17,7 @@ function TripCard({ trip, index }) {
     const mapImg = mapImages[index % mapImages.length]
 
     return (
-        <div className="trip-card">
+        <div className="trip-card" onClick={() => navigate(`/my-trips/${id}`)}>
             <img src={mapImg} alt="Trip art" className="trip-icon"/>
             <div className="trip-details">
                 <h3 className="trip-title">{name}</h3>

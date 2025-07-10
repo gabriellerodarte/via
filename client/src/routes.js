@@ -8,6 +8,7 @@ import Places from "./components/Places";
 import MyTrips from "./components/MyTrips";
 import NewTripForm from "./components/NewTripForm";
 import About from "./components/About";
+import TripDetails from "./components/TripDetails";
 
 const routes = [
     {
@@ -47,6 +48,14 @@ const routes = [
                 element: (
                     <PrivateRoute>
                         <MyTrips/>
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/my-trips/:id",
+                element: (
+                    <PrivateRoute>
+                        <TripDetails/>
                     </PrivateRoute>
                 )
             },
