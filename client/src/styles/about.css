@@ -1,0 +1,101 @@
+:root {
+  --accent: #b3e5fc;
+}
+
+.about-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #2c2c2c;
+}
+
+.about-hero h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.about-hero p {
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.about-features {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.about-features h2,
+.about-how h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.25rem;
+  color: var(--accent);
+}
+
+.feature-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.feature-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.95rem;
+  max-width: 120px;
+}
+
+.feature-list svg {
+  margin-bottom: 0.4rem;
+  color: var(--accent);
+}
+
+.about-how {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.about-how ol {
+  display: inline-block;
+  text-align: left;
+  margin-top: 1rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  padding-left: 0;
+}
+
+
+.about-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.signature {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+  justify-content: center;
+}
+
+.signature svg {
+  color: var(--accent);
+}
