@@ -10,8 +10,7 @@ function Places() {
         const fetchPlaces = async () => {
             const result = await getPlaces()
             if(!result.success) {
-                const errorData = await result.json()
-                console.log(errorData.error)
+                console.log(result.error)
             }
         }
         fetchPlaces()

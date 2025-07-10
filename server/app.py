@@ -173,14 +173,11 @@ class EventResource(Resource):
 class EventById(Resource):
     @login_required
     def patch(self, id):
-        event = Event.query.filter_by(id=id).first()
+        event = current_user.events.filter_by(id=id).first()
 
         if not event:
             return {'error': 'Event not found'}, 404
 
-        if current_user.id != event.trip.user_id:
-            return {'error': 'Unauthorized to access this resource'}, 403
-        
         try:
             data = request.get_json()
             for attr, value in data.items():
@@ -195,14 +192,10 @@ class EventById(Resource):
     
     @login_required
     def delete(self, id):
-        event = Event.query.filter_by(id=id).first()
+        event = current_user.events.filter_by(id=id).first()
 
-        # event = current_user.events.filter_by...
         if not event:
             return {'error': 'Event not found'}, 404
-
-        if current_user.id != event.trip.user_id:
-            return {'error': 'Unauthorized to access this resource'}, 403
         
         try:
             db.session.delete(event)
