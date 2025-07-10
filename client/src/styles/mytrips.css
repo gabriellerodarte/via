@@ -25,3 +25,46 @@
   font-style: italic;
   margin-top: 1rem;
 }
+
+.trip-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-3px);
+}
+
+.trip-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.trip-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.trip-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.trip-dates {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+

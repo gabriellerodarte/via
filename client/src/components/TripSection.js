@@ -7,8 +7,8 @@ function TripSection({ title, trips, emptyMessage }) {
             <h2>{title}</h2>
             {trips.length > 0 ? (
                 <div className="trip-card-grid">
-                    {trips.map(trip => (
-                        <TripCard key={trip.id} trip={trip} />
+                    {trips.map((trip, index) => (
+                        <TripCard key={trip.id} trip={trip} index={index}/>
                     ))}
                 </div>
             ) : (

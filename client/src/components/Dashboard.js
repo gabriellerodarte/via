@@ -29,14 +29,14 @@ function Dashboard() {
                     {currentTrips.length > 0 && (
                     <div className="dashboard-panel">
                         <h2>Current Trip</h2>
-                        {currentTrips.map(trip => <TripCard key={trip.id} trip={trip} />)}
+                        {currentTrips.map((trip, index) => <TripCard key={trip.id} trip={trip} index={index}/>)}
                     </div>
                     )}
 
                     {upcomingTrips.length > 0 && (
                     <div className="dashboard-panel">
                         <h2>Upcoming Trips</h2>
-                        {upcomingTrips.map(trip => <TripCard key={trip.id} trip={trip} />)}
+                        {upcomingTrips.map((trip, index) => <TripCard key={trip.id} trip={trip} index={index}/>)}
                     </div>
                     )}
                 </div>
