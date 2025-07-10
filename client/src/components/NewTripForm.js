@@ -1,12 +1,13 @@
-import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import "../styles/newtripform.css"
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { UserContext } from "../context/UserContext";
-
+import "../styles/newtripform.css"
 
 function NewTripForm() {
     const { createTrip } = useContext(UserContext)
+    const navigate = useNavigate()
 
     const TripSchema = Yup.object().shape({
         name: Yup.string().required('Please enter your trip name'),
@@ -30,7 +31,9 @@ function NewTripForm() {
                     try {
                         const result = await createTrip(values)
                         if (result.success) {
+                            const newTrip = result.data
                             console.log("Trip successfully created! Need to reroute to trip page.")
+                            navigate(`/my-trips/${newTrip.id}`)
                         } else {
                             setErrors({ general: result.error })
                         }

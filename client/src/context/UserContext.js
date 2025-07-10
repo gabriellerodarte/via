@@ -122,7 +122,7 @@ function UserProvider({ children }) {
             if (r.ok) {
                 const data = await r.json()
                 setUserTrips(prev => [...prev, data])
-                return { success: true }
+                return { success: true, data: data }
             } else {
                 const errorData = await r.json()
                 return { success: false, error: errorData.error || "Failed to create trip." }
