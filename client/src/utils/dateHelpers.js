@@ -11,3 +11,15 @@ export function formatTripDates(start, end) {
         return `${startDate.toLocaleDateString('en-US', optionsSameMonth)}–${endDate.toLocaleDateString('en-US', optionsWithYear)}`;
     }
 }
+
+export function getCountdown(startDateStr) {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const startDate = new Date(startDateStr)
+    startDate.setHours(0, 0, 0, 0)
+
+    const countdown = Math.ceil((new Date(startDate) - new Date()) / (1000 * 60 * 60 * 24))
+
+    return countdown
+}

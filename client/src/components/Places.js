@@ -6,6 +6,8 @@ import NewPlaceForm from "./NewPlaceForm";
 function Places() {
     const { places, getPlaces } = useContext(PlaceContext)
 
+    // handle fetch error if issue loading places !!!
+
     useEffect(() => {
         const fetchPlaces = async () => {
             const result = await getPlaces()
