@@ -5,13 +5,46 @@
 }
 
 .welcome-banner {
-  background-color: #f3faff;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  font-size: 1rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
 }
+
+.banner-top {
+  background-color: transparent;
+  color: #1a1a1a;
+  padding: 0 2rem;
+  margin-top: 2rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.banner-top h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 400; /* lighter weight */
+  letter-spacing: 0.5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* Message section below the banner */
+.banner-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.banner-message a {
+  color: #4b9ed6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.banner-message a:hover {
+  text-decoration: underline;
+}
+
 
 .dashboard-grid {
   display: grid;
@@ -22,5 +55,5 @@
 .dashboard-panel h2 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
-  color: #4b9ed6;
+  color: #b3e5fc;
 }

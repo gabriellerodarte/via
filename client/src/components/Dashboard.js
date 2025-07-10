@@ -15,14 +15,18 @@ function Dashboard() {
     return (
             <div className="dashboard">
                 <section className="welcome-banner">
-                    <h1>Welcome back!</h1>
-                    {currentTrips[0] ? (
-                    <p>Your current trip: <strong>{currentTrips[0].name}!</strong></p>
-                    ) : upcomingTrips[0] ? (
-                    <p>Your next trip: <strong>{upcomingTrips[0].name}</strong></p>
-                    ) : (
-                    <p>No trips planned yet - your next trip begins here. <NavLink to="/new-trip">Plan one →</NavLink></p>
-                    )}
+                    <div className="banner-top">
+                        <h1>Welcome back!</h1>
+                    </div>
+                    <div className="banner-message">
+                        {currentTrips[0] ? (
+                        <p>Your current trip: <strong>{currentTrips[0].name}!</strong></p>
+                        ) : upcomingTrips[0] ? (
+                        <p>Your next trip: <strong>{upcomingTrips[0].name}</strong></p>
+                        ) : (
+                        <p>No trips planned yet - your next trip begins here. <NavLink to="/new-trip">Plan one →</NavLink></p>
+                        )}
+                    </div>
                 </section>
 
                 <div className="dashboard-grid">
