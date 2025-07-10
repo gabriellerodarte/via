@@ -1,11 +1,12 @@
 import { useContext } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import { formatTripDates, getCountdown } from "../utils/dateHelpers"
 import { CalendarDays, MapPin } from "lucide-react"
 
 function TripDetails() {
     const { id } = useParams()
+    const navigate = useNavigate()
     const { userTrips } = useContext(UserContext)
     const trip = userTrips.find(trip => trip.id === parseInt(id))
 
@@ -17,13 +18,14 @@ function TripDetails() {
 
     return (
         <div className="trip-details">
-            {daysAway > 0 && (
-                <section className="trip-countdown">
-                    <h1>{daysAway}</h1>
-                    <p>days</p>
-                </section>
-            )}
-
+            <section className="trip-countdown">
+                {daysAway >= 0 && (
+                    <>
+                        <h1>{daysAway}</h1>
+                        <p>days</p>                    
+                    </>
+                )}
+            </section>
             <hr className="divider" />
 
             <section className="trip-info">
@@ -33,8 +35,22 @@ function TripDetails() {
                     <span>{formattedDates}</span>
                 </div>
             </section>
+            <hr className="divider" />
 
             {/* Itinerary section will go here later */}
+            {/* Place components */}
+            <section>
+                <h3>Itinerary</h3>
+                {places.length === 0 && (
+                    <>
+                        <p>Oh the places you'll go...</p>
+                        <p>Add events to your trip to see what places are on your trip itinerary!</p>
+                    </>
+                )}
+                <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
+
+            </section>
+
         </div>
   )}
 

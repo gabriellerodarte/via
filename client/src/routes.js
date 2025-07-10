@@ -9,6 +9,7 @@ import MyTrips from "./components/MyTrips";
 import NewTripForm from "./components/NewTripForm";
 import About from "./components/About";
 import TripDetails from "./components/TripDetails";
+import NewEventForm from "./components/NewEventForm";
 
 const routes = [
     {
@@ -72,6 +73,22 @@ const routes = [
                 element: (
                     <PrivateRoute>
                         <About/>
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/my-trips/:id/new-event",
+                element: (
+                    <PrivateRoute>
+                        <NewEventForm/>
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/my-trips/:tripID/places/:id/new-event",
+                element: (
+                    <PrivateRoute>
+                        <NewEventForm/>
                     </PrivateRoute>
                 )
             }

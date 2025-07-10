@@ -1,17 +1,17 @@
 import { useContext } from "react"
 import { getCurrentTrips, getUpcomingTrips } from "../utils/tripFilters"
 import { UserContext } from "../context/UserContext"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import TripCard from "./TripCard"
 import "../styles/dashboard.css"
 
 function Dashboard() {
     const { userTrips } = useContext(UserContext)
+    const navigate = useNavigate()
 
     const currentTrips = getCurrentTrips(userTrips || [])
     const upcomingTrips = getUpcomingTrips(userTrips || [])
     
-
     return (
             <div className="dashboard">
                 <section className="welcome-banner">
@@ -32,7 +32,7 @@ function Dashboard() {
                 <div className="dashboard-grid">
                     {currentTrips.length > 0 && (
                     <div className="dashboard-panel">
-                        <h2>Current Trip</h2>
+                        <h2>Happening Today</h2>
                         {currentTrips.map((trip, index) => <TripCard key={trip.id} trip={trip} index={index}/>)}
                     </div>
                     )}
@@ -43,6 +43,9 @@ function Dashboard() {
                         {upcomingTrips.map((trip, index) => <TripCard key={trip.id} trip={trip} index={index}/>)}
                     </div>
                     )}
+                </div>
+                <div>
+                    <button onClick={() => navigate("/new-trip")}>Start a New Trip</button>
                 </div>
             </div>
     )
