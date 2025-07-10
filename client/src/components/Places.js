@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { PlaceContext } from "../context/PlaceContext";
+import NewPlaceForm from "./NewPlaceForm";
 
 
 function Places() {
@@ -17,7 +18,9 @@ function Places() {
     }, [getPlaces])
     
     return (
-        <h1>PLACE COMPONENT</h1>
+        <div>
+            <NewPlaceForm/>
+        </div>
     )
 }
 
