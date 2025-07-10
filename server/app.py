@@ -138,6 +138,7 @@ class EventResource(Resource):
         data = request.get_json()
         title = data.get('title')
         planning_status = data.get('planning_status', 'tentative')
+        location= data.get('location')
         start_time = data.get('start_time')
         end_time = data.get('end_time')
         trip_id = data.get('trip_id')
@@ -156,6 +157,7 @@ class EventResource(Resource):
             new_event = Event(
                 title=title, 
                 planning_status=planning_status,
+                location=location,
                 start_time=start_time,
                 end_time=end_time, 
                 trip_id=trip_id, 

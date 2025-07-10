@@ -108,6 +108,7 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     planning_status = db.Column(db.String, nullable=False, default='tentative')
+    location = db.Column(db.String, nullable=False)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
 
