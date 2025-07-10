@@ -29,7 +29,7 @@ function NavBar() {
                 <div className="nav-center">
                     <NavLink to="/" className="nav-link"><Home size={18}/> Home</NavLink>
                     <NavLink to="/my-trips" className="nav-link"><Luggage size={18}/> Trips</NavLink>
-                    <NavLink to="/new-trip" className="nav-link"><PlusCircle size={18}/>Plan a Trip</NavLink>
+                    <NavLink to="/new-trip" className="nav-link"><PlusCircle size={18}/> Plan a Trip</NavLink>
                     <NavLink to="/places" className="nav-link"><Search size={18}/> Explore</NavLink>
                     <NavLink to="/about" className="nav-link"><Map size={18}/> About</NavLink>
                 </div>

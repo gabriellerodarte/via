@@ -1,9 +1,9 @@
+import { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { MapPin, Asterisk } from "lucide-react";
-import "../styles/newplaceform.css"
-import { useContext } from "react";
 import { PlaceContext } from "../context/PlaceContext";
+import "../styles/newplaceform.css"
 
 function NewPlaceForm() {
     const { createPlace } = useContext(PlaceContext)

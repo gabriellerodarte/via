@@ -195,6 +195,7 @@ class EventById(Resource):
     def delete(self, id):
         event = Event.query.filter_by(id=id).first()
 
+        # event = current_user.events.filter_by...
         if not event:
             return {'error': 'Event not found'}, 404
 

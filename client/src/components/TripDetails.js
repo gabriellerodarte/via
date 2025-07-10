@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { useParams } from "react-router-dom"
-import { formatTripDates } from "../utils/formatDates"
 import { UserContext } from "../context/UserContext"
+import { formatTripDates } from "../utils/dateHelpers"
 import { CalendarDays, MapPin } from "lucide-react"
 
 function TripDetails() {
@@ -28,7 +28,7 @@ function TripDetails() {
                 <h1>{countdown}</h1>
                 <p>days</p>
             </section>
-            
+
             <hr className="divider" />
 
             <section className="trip-info">

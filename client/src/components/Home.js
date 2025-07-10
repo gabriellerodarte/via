@@ -2,7 +2,6 @@ import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 import Dashboard from "./Dashboard"
 import PublicHome from "./PublicHome"
-import { Compass } from "lucide-react"
 
 
 function Home() {

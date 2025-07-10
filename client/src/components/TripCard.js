@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { formatTripDates } from "../utils/formatDates";
+import { formatTripDates } from "../utils/dateHelpers";
 import { CalendarDays } from "lucide-react"
 
 function TripCard({ trip, index }) {
