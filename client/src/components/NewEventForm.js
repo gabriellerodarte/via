@@ -6,10 +6,11 @@ import "../styles/eventform.css"
 import { useContext, useEffect, useState } from "react";
 import { PlaceContext } from "../context/PlaceContext";
 import PlaceSelectorModal from "./PlaceSelectorModal";
+import { UserContext } from "../context/UserContext";
 
 function NewEventForm() {
     const { id, tripId } = useParams()
-    const { places } = useContext(PlaceContext)
+    const { addEvent } = useContext(UserContext)
     const [selectedPlace, setSelectedPlace] = useState(null)
     const [showPlaceModal, setShowPlaceModal] = useState(false)
     // make sure use conditionals properly with potentially two id params - id being different if place tied to event already
@@ -44,7 +45,8 @@ function NewEventForm() {
         location: '',
         start_time: '',
         end_time: '',
-        place: tripId ? id : ''
+        place: tripId ? id : '',
+        trip: tripId ? tripId: id
     }
 
     return (
@@ -52,8 +54,33 @@ function NewEventForm() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={EventSchema}
-                onSubmit={()=>{
+                onSubmit={async (values, { setSubmitting, setErrors }) => {
                     console.log("Event form submitted")
+                    try {
+                        const newEvent = {
+                            title: values.title,
+                            planning_status: values.planning_status,
+                            location: values.location,
+                            start_time: values.start_time,
+                            end_time: values.end_time,
+                            place_id: parseInt(values.place),
+                            trip_id: parseInt(values.trip),
+                        }
+                        console.log('try block run')
+                        const result = await addEvent(newEvent)
+                        console.log('result returned')
+                        if (result.success) {
+                            console.log('result success')
+                            console.log("event successfully created!")
+                        } else {
+                            console.log('errors')
+                            setErrors({ general: result.error })
+                        }
+                    } catch (err) {
+                        setErrors({ general: err.error })
+                    } finally {
+                        setSubmitting(false)
+                    }
                 }}
             >
                 {({ values, setFieldValue, errors}) => (
@@ -114,6 +141,8 @@ function NewEventForm() {
                                     </div>
                                 </>
                             )}
+
+                            {errors.general && <div className="error">{errors.general}</div>}
 
                             <button type="submit">Add Event</button>                    
                         </Form>

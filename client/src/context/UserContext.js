@@ -133,8 +133,52 @@ function UserProvider({ children }) {
         }
     }
 
+    const addEvent = async (newEvent) => {
+        console.log('inside add event call')
+        try {
+            console.log('test')
+            const r = await fetch(`/events`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(newEvent)
+            })
+            console.log('here')
+            if (r.ok) {
+                const newEventData = await r.json()
+                console.log(newEventData)
+                return { success: true }
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Failed to create event." }
+            }
+        } catch (err) {
+            console.log("Error creating event:", err)
+            return { success: false, error: "An unexpected error occurred while creating event. Please try again."}
+        }
+    }
+    // login to add event to trip under place
+    // setUserTrips(prev => 
+    //     prev.map(trip => {
+    //         if (trip.id !== newEventData.trip_id) return trip
+
+    //         const placeExists = trip.places.find(p => p.id === newEventData.place_id)
+    //         if (placeExists) {
+    //             // add event to place
+    //         } else {
+    //             //add place and event
+    //             const newPlace = {
+    //                 ...newEventData.place,
+    //                 events: [newEventData]
+    //             }
+    //         }
+    //     })
+    // )
+
     return (
-        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip }}>
+        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip, addEvent }}>
             {children}
         </UserContext.Provider>
     )
