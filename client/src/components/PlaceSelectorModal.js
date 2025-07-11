@@ -1,55 +1,62 @@
-import { useContext, useEffect, useState } from "react"
-import NewPlaceForm from "./NewPlaceForm"
-import { PlaceContext } from "../context/PlaceContext"
-import "../styles/placeselectormodal.css"
+import { useContext, useEffect, useState } from "react";
+import { PlaceContext } from "../context/PlaceContext";
+import NewPlaceForm from "./NewPlaceForm";
+import "../styles/placeselectormodal.css";
 
 function PlaceSelectorModal({ show, onClose, onPlaceSelect }) {
-    const { places, setPlaces, getPlaces } = useContext(PlaceContext)
-    const [showAddForm, setShowAddForm] = useState(false)
+    const { places, getPlaces } = useContext(PlaceContext);
+    const [showNewPlaceForm, setShowNewPlaceForm] = useState(false);
 
     useEffect(() => {
-        getPlaces()
-    }, [getPlaces])
+        if (show) getPlaces();
+    }, [show, getPlaces]);
 
-    if (!show) return null
+    if (!show) return null;
+
+    const handleNewPlaceAdded = (newPlace) => {
+        onPlaceSelect(newPlace);
+        setShowNewPlaceForm(false);
+    };
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content">
-                <button className="close-button" onClick={onClose}>×</button>
+        <div className="modal-content">
+            <button className="close-button" onClick={onClose}>×</button>
+
+            {!showNewPlaceForm ? (
+            <>
                 <h2>Select a Place</h2>
-
                 <ul className="place-list">
-                    {places.map(place => (
-                        <li 
-                            key={place.id} 
-                            className="place-item" 
-                            onClick={() => onPlaceSelect(place)}
-                        >
-                            <strong>{place.name}</strong><br />
-                            <span>{place.address}</span>
-                        </li>
-                    ))}
+                {places.map((place) => (
+                    <li
+                    key={place.id}
+                    className="place-item"
+                    onClick={() => onPlaceSelect(place)}
+                    >
+                    <strong>{place.name}</strong><br />
+                    <span>{place.address}</span>
+                    </li>
+                ))}
                 </ul>
-
-                {!showAddForm ? (
-                    <button onClick={() => setShowAddForm(true)} className="add-place-button">
-                        + Add New Place
-                    </button>
-                ) : (
-                    <div className="add-place-form">
-                        <NewPlaceForm
-                            onSuccess={(newPlace) => {
-                                // setPlaces(prev => [...prev, newPlace])
-                                onPlaceSelect(newPlace)
-                                setShowAddForm(false)
-                            }}
-                        />
-                    </div>
-                )}
+            
+                <button
+                onClick={() => setShowNewPlaceForm(true)}
+                className="add-place-button"
+                >
+                + Add New Place
+                </button>
+            </>
+            ) : (
+            <div className="add-place-form">
+                <button onClick={() => setShowNewPlaceForm(false)}>
+                ← Back to Place List
+                </button>
+                <NewPlaceForm onSuccess={handleNewPlaceAdded}/>
             </div>
+            )}
         </div>
-    )
+        </div>
+    );
 }
 
 export default PlaceSelectorModal

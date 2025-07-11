@@ -38,7 +38,7 @@ function PlaceProvider({ children }) {
             if (r.ok) {
                 const data = await r.json()
                 setPlaces(prev => [...prev, data])
-                return { success: true }
+                return { success: true, newPlace: data }
             } else {
                 const errorData = await r.json()
                 return { success: false, error: errorData.error || "Failed to add place." }
