@@ -5,6 +5,8 @@ from flask import request, session
 from flask_restful import Resource
 from flask_login import login_required, current_user, login_user, logout_user
 from datetime import datetime
+from sqlalchemy.orm import joinedload
+
 # Local imports
 from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
@@ -14,11 +16,16 @@ user_schema = UserSchema()
 trip_schema = TripSchema()
 place_schema = PlaceSchema()
 places_schema = PlaceSchema(many=True)
+placewithevent_schema = PlaceWithEventsSchema()
+placeswithevent_schema = PlaceWithEventsSchema(many=True)
 event_schema = EventSchema()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.options(
+        joinedload(User.trips).joinedload(Trip.places).joinedload(Place.events),
+        joinedload(User.trips).joinedload(Trip.events)
+        ).get(int(user_id))
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -68,7 +75,7 @@ class CheckSession(Resource):
     @login_required
     def get(self):
         print("Is authenticated: ", current_user.is_authenticated)
-        print("Current user: ", current_user)
+        print("Current user JSON: ", user_schema.dump(current_user))
         return user_schema.dump(current_user), 200
 
 class Logout(Resource):
@@ -153,7 +160,7 @@ class EventResource(Resource):
             datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M')
             if end_time_str else None
         )
-        
+
         if start_time and end_time and end_time <= start_time:
             return {"error": "End time must be after start time."}, 400
 
@@ -166,6 +173,11 @@ class EventResource(Resource):
         if start_time and end_time and start_time >= end_time:
             return {'error': 'Start time must be before end time'}, 400
 
+        trip = Trip.query.get(trip_id)
+        place = Place.query.get(place_id)
+
+        if not trip or place:
+            return {'error': 'Invalid trip or place ID'}, 400
         try:
             new_event = Event(
                 title=title, 
@@ -177,6 +189,9 @@ class EventResource(Resource):
                 place_id=place_id
             )
             db.session.add(new_event)
+            if place not in trip.places:
+                trip.places.append(place)
+
             db.session.commit()
 
             return event_schema.dump(new_event), 200
@@ -206,13 +221,18 @@ class EventById(Resource):
     @login_required
     def delete(self, id):
         event = current_user.events.filter_by(id=id).first()
-
+        # will this work ?? can i access events directly since its flask login?
         if not event:
             return {'error': 'Event not found'}, 404
         
         try:
             db.session.delete(event)
             db.session.commit()
+
+            # check if last event (check within current user ? not all?)
+            if not Event.query.filter_by(trip_id=trip.id, place_id=place.id).first():
+                trip.places.remove(place)
+                db.session.commit()
 
             return {}, 204
         except Exception as e:

@@ -1,10 +1,6 @@
 from config import ma
 from models import User, Trip, Place, Event
 
-class PlaceSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Place
-        load_instance = True
 
 class EventSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -29,3 +25,8 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         fields = ["id", "username", "trips"]
     trips = ma.Nested("TripSchema", many=True)
+
+class PlaceSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Place
+        load_instance = True
