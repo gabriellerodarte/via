@@ -139,10 +139,23 @@ class EventResource(Resource):
         title = data.get('title')
         planning_status = data.get('planning_status', 'tentative')
         location= data.get('location')
-        start_time = data.get('start_time')
-        end_time = data.get('end_time')
+        start_time_str = data.get('start_time')
+        end_time_str = data.get('end_time')
         trip_id = data.get('trip_id')
         place_id = data.get('place_id')
+
+        start_time = (
+            datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M')
+            if start_time_str else None
+        )
+
+        end_time = (
+            datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M')
+            if end_time_str else None
+        )
+        
+        if start_time and end_time and end_time <= start_time:
+            return {"error": "End time must be after start time."}, 400
 
         if not title or not planning_status or not trip_id or not place_id:
             return {'error': 'Title, planning_status, trip_id, and place_id are required'}, 400

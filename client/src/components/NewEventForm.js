@@ -1,7 +1,11 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useParams } from "react-router-dom";
 
 function NewEventForm() {
+    const { id, tripId } = useParams()
+
+    // make sure use conditionals properly with potentially two id params - id being different if place tied to event already
     
     const EventSchema = Yup.object().shape({
         title: Yup.string().required("Event title is required"),
@@ -22,8 +26,17 @@ function NewEventForm() {
                 if (!start_time || !value) return true
                 return new Date(value) > new Date(start_time)
             }),
-        place: Yup.string().required('Please select a place or add a new one')
+        place: !tripId ? Yup.string().required('Please select a place or add a new one') : Yup.string()
     })
+
+    const initialValues = {
+        title: '',
+        planning_status: 'tentative',
+        location: '',
+        start_time: '',
+        end_time: '',
+        place: id || ''
+    }
 }
 
 export default NewEventForm
