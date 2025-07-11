@@ -1,0 +1,40 @@
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.status-toggle {
+  display: flex;
+  gap: 1rem;
+}
+
+.toggle-button {
+  padding: 0.4rem 1rem;
+  border: 2px solid #ccc;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggle-button.active {
+  background-color: #e0f2ff;
+  border-color: #4b9ed6;
+  color: #1a1a1a;
+}
+
+.toggle-button:hover {
+  background-color: #f0f0f0;
+}
+
+.error {
+  color: #d33;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+}

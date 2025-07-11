@@ -47,8 +47,8 @@ function TripDetails() {
                         <p>Add events to your trip to see what places are on your trip itinerary!</p>
                     </>
                 )}
+                {/* change && to " ? : " and render place cards mapping through places - make place card component and event card component and edit event component */}
                 <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
-
             </section>
 
         </div>
