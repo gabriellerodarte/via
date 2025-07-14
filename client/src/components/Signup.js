@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from "../context/UserContext";
+import { Compass } from "lucide-react";
+import "../styles/signup.css"
 
 function Signup() {
     const { signupUser } = useContext(UserContext)
@@ -23,8 +25,8 @@ function Signup() {
     }
 
     return (
-        <div>
-            <h1 onClick={() => navigate("/")}>via.</h1>
+        <div className="signup-page">
+            <h1 onClick={() => navigate("/")}><Compass size={30} style={{ marginRight: '0.4rem', color: "#b3e5fc" }}/> via.</h1>
             <p>Sign up to start exploring places<br/>and plan your next trip!</p>
 
             <Formik
@@ -46,7 +48,7 @@ function Signup() {
                 }}
             >
                 {({ errors }) => (
-                    <Form>
+                    <Form className="signup-form">
                         <label htmlFor="username">Username</label>
                         <Field name="username" type="text"/>
                         <ErrorMessage name="username" component="div" className="error"/>

@@ -1,5 +1,6 @@
 import TripCard from "./TripCard";
 
+
 function TripSection({ title, trips, emptyMessage }) {
 
     return (

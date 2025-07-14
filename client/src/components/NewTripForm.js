@@ -32,7 +32,6 @@ function NewTripForm() {
                         const result = await createTrip(values)
                         if (result.success) {
                             const newTrip = result.data
-                            console.log("Trip successfully created! Need to reroute to trip page.")
                             navigate(`/my-trips/${newTrip.id}`)
                         } else {
                             setErrors({ general: result.error })

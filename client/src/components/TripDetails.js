@@ -37,6 +37,7 @@ function TripDetails() {
                     <span>{formattedDates}</span>
                 </div>
             </section>
+                <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
             <hr className="divider" />
 
             {/* Itinerary section will go here later */}
@@ -56,7 +57,6 @@ function TripDetails() {
                         )}
                     </>
                 )}
-                <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
             </section>
 
         </div>

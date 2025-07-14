@@ -5,6 +5,12 @@
   padding: 2rem;
 }
 
+.trip-section {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .trip-section h2 {
   font-size: 1.3rem;
   color: #b3e5fc;

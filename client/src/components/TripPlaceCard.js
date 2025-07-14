@@ -13,6 +13,7 @@ function TripPlaceCard({ place }) {
                     <EventCard key={event.id} event={event}/>
                 ))}
             </ul>
+            <button>Plan Another {name} Event</button>
         </div>
     )
 }
