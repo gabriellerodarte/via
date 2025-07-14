@@ -130,7 +130,7 @@ function NewEventForm() {
                             {!tripId && (
                                 <>
                                     <div className="place-section">
-                                        <label>Place</label>
+                                        <label htmlFor="place">Place</label>
                                         <button type="button" onClick={() => setShowPlaceModal(true)}>
                                             {selectedPlace ? 'Change Place' : 'Select Place'}
                                         </button>
@@ -141,9 +141,7 @@ function NewEventForm() {
                                     </div>
                                 </>
                             )}
-
                             {errors.general && <div className="error">{errors.general}</div>}
-
                             <button type="submit">Add Event</button>                    
                         </Form>
                         <PlaceSelectorModal

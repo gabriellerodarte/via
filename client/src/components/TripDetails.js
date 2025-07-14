@@ -41,6 +41,12 @@ function TripDetails() {
             {/* Place components */}
             <section>
                 <h3>Itinerary</h3>
+                {places?.map(p => 
+                    <ul>
+                        {p.name}
+                        {p.events.map(e => <li>{e.title}</li>)}
+                    </ul>
+                )}
                 {places.length === 0 && (
                     <>
                         <p>Oh the places you'll go...</p>
