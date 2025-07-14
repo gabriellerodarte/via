@@ -177,7 +177,6 @@ class EventResource(Resource):
         place = Place.query.get(place_id)
 
         if not trip or not place:
-            breakpoint()
             return {'error': 'Invalid trip or place ID'}, 400
         try:
             new_event = Event(

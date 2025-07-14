@@ -23,3 +23,10 @@ export function getCountdown(startDateStr) {
 
     return countdown
 }
+
+export function formatTimeRange(start, end) {
+    const options = { hour: "numeric", minute: "2-digit" }
+    const startTime = new Date(start).toLocaleTimeString([], options)
+    const endTime = end ? new Date(end).toLocaleTimeString([], options) : null
+    return endTime ? `${startTime} - ${endTime}` : startTime
+}

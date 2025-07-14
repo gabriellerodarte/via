@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Check } from "lucide-react";
 import "../styles/eventform.css"
 import { useContext, useEffect, useState } from "react";
@@ -13,6 +13,7 @@ function NewEventForm() {
     const { addEvent } = useContext(UserContext)
     const [selectedPlace, setSelectedPlace] = useState(null)
     const [showPlaceModal, setShowPlaceModal] = useState(false)
+    const navigate = useNavigate()
     // make sure use conditionals properly with potentially two id params - id being different if place tied to event already
     
     const EventSchema = Yup.object().shape({
@@ -72,6 +73,8 @@ function NewEventForm() {
                         if (result.success) {
                             console.log('result success')
                             console.log("event successfully created!")
+                            // navigate to the trip details page!!!
+                            navigate(`/my-trips/${tripId ? tripId : id}`)
                         } else {
                             console.log('errors')
                             setErrors({ general: result.error })
@@ -123,10 +126,6 @@ function NewEventForm() {
                             <Field name="end_time" type="datetime-local" />
                             <ErrorMessage name="end_time" component="div" className="error" />
 
-                            <div className="place-section">
-                                <label htmlFor="place">Place</label>
-                                {/*  */}
-                            </div>
                             {!tripId && (
                                 <>
                                     <div className="place-section">

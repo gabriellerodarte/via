@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import { formatTripDates, getCountdown } from "../utils/dateHelpers"
 import { CalendarDays, MapPin } from "lucide-react"
+import TripPlaceCard from "./TripPlaceCard"
+import "../styles/tripdetails.css"
 
 function TripDetails() {
     const { id } = useParams()
@@ -41,19 +43,19 @@ function TripDetails() {
             {/* Place components */}
             <section>
                 <h3>Itinerary</h3>
-                {places?.map(p => 
-                    <ul>
-                        {p.name}
-                        {p.events.map(e => <li>{e.title}</li>)}
-                    </ul>
-                )}
-                {places.length === 0 && (
+                {places.length === 0 ? (
                     <>
                         <p>Oh the places you'll go...</p>
                         <p>Add events to your trip to see what places are on your trip itinerary!</p>
                     </>
+                ) : (
+                    <>
+                        {places.map(place => (
+                            <TripPlaceCard key={place.id} place={place}/>
+                        )
+                        )}
+                    </>
                 )}
-                {/* change && to " ? : " and render place cards mapping through places - make place card component and event card component and edit event component */}
                 <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
             </section>
 

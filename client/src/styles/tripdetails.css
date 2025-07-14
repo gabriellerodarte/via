@@ -1,0 +1,45 @@
+.trip-details {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.place-section {
+  margin-top: 2rem;
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-item {
+  margin: 0.5rem 0;
+}
+
+.status {
+  font-style: italic;
+  margin-left: 0.5rem;
+  opacity: 0.7;
+}
+
+.status.confirmed {
+  color: green;
+}
+
+.status.tentative {
+  color: orange;
+}
+
+.add-event-button {
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
