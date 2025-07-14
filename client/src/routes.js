@@ -85,7 +85,7 @@ const routes = [
                 )
             },
             {
-                path: "/my-trips/:tripID/places/:id/new-event",
+                path: "/my-trips/:tripId/places/:id/new-event",
                 element: (
                     <PrivateRoute>
                         <NewEventForm/>

@@ -27,7 +27,6 @@
 }
 
 
-/* Message section below the banner */
 .banner-message {
   text-align: center;
   margin-top: 1rem;
@@ -57,4 +56,22 @@
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: #b3e5fc;
+}
+
+.dashboard > div > button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 2rem auto 0;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.dashboard > div > button:hover {
+  background-color: #333;
 }

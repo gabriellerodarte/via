@@ -1,8 +1,12 @@
+import { useNavigate, useParams } from "react-router-dom"
 import EventCard from "./EventCard"
 
 
 function TripPlaceCard({ place }) {
+    const { id } = useParams()
     const { name, address, events } = place
+    const navigate = useNavigate()
+
     return (
         <div className="place-card">
             <h3>{name}</h3>
@@ -13,7 +17,7 @@ function TripPlaceCard({ place }) {
                     <EventCard key={event.id} event={event}/>
                 ))}
             </ul>
-            <button>Plan Another {name} Event</button>
+            <button onClick={() => navigate(`/my-trips/${id}/places/${place.id}/new-event`)}>New Event in {name}</button>
         </div>
     )
 }

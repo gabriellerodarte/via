@@ -94,7 +94,7 @@ class TripResource(Resource):
         if not name or not start_date or not end_date:
             return {'error': 'Trip name, start_date and end_date are required'}, 400
 
-        if start_date and end_date and start_date >= end_date:
+        if start_date and end_date and start_date > end_date:
             return {'error': 'Start date must be before end date'}, 400
 
         try:

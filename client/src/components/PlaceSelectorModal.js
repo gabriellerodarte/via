@@ -4,18 +4,23 @@ import NewPlaceForm from "./NewPlaceForm";
 import "../styles/placeselectormodal.css";
 
 function PlaceSelectorModal({ show, onClose, onPlaceSelect }) {
-    const { places, getPlaces } = useContext(PlaceContext);
-    const [showNewPlaceForm, setShowNewPlaceForm] = useState(false);
+    const { places, getPlaces } = useContext(PlaceContext)
+    const [showNewPlaceForm, setShowNewPlaceForm] = useState(false)
+    const [searchTerm, setSearchTerm] = useState("")
+    const filteredPlaces = places.filter(place => 
+        place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        place.address.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
     useEffect(() => {
-        if (show) getPlaces();
-    }, [show, getPlaces]);
+        if (show) getPlaces()
+    }, [show, getPlaces])
 
-    if (!show) return null;
+    if (!show) return null
 
     const handleNewPlaceAdded = (newPlace) => {
-        onPlaceSelect(newPlace);
-        setShowNewPlaceForm(false);
+        onPlaceSelect(newPlace)
+        setShowNewPlaceForm(false)
     };
 
     return (
@@ -26,8 +31,16 @@ function PlaceSelectorModal({ show, onClose, onPlaceSelect }) {
             {!showNewPlaceForm ? (
             <>
                 <h2>Select a Place</h2>
+                <input
+                    type="text"
+                    placeholder="Search places..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="place-search"
+                />
+
                 <ul className="place-list">
-                {places.map((place) => (
+                {filteredPlaces.map((place) => (
                     <li
                     key={place.id}
                     className="place-item"

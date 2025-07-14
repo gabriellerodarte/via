@@ -37,16 +37,14 @@ function TripDetails() {
                     <span>{formattedDates}</span>
                 </div>
             </section>
-                <button onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
+                <button className="add-event-button" onClick={() => navigate(`/my-trips/${id}/new-event`)}>Add a New Event</button>
             <hr className="divider" />
 
-            {/* Itinerary section will go here later */}
-            {/* Place components */}
             <section>
-                <h3>Itinerary</h3>
+                <h3>Oh the places you'll go...</h3>
                 {places.length === 0 ? (
                     <>
-                        <p>Oh the places you'll go...</p>
+                        {/* <p>Oh the places you'll go...</p> */}
                         <p>Add events to your trip to see what places are on your trip itinerary!</p>
                     </>
                 ) : (

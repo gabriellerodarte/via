@@ -10,12 +10,16 @@ import { UserContext } from "../context/UserContext";
 
 function NewEventForm() {
     const { id, tripId } = useParams()
-    const { addEvent } = useContext(UserContext)
+    const { userTrips, addEvent } = useContext(UserContext)
     const [selectedPlace, setSelectedPlace] = useState(null)
     const [showPlaceModal, setShowPlaceModal] = useState(false)
     const navigate = useNavigate()
-    // make sure use conditionals properly with potentially two id params - id being different if place tied to event already
-    
+
+    const trip = userTrips.find(trip => {
+        return trip.id === parseInt(tripId || id)
+    })
+    const eventPlace = trip.places?.find(place => place.id === parseInt(id))
+
     const EventSchema = Yup.object().shape({
         title: Yup.string().required("Event title is required"),
         planning_status: Yup.string()
@@ -42,7 +46,7 @@ function NewEventForm() {
     
     const initialValues = {
         title: '',
-        planning_status: 'tentative',
+        planning_status: 'confirmed',
         location: '',
         start_time: '',
         end_time: '',
@@ -52,6 +56,16 @@ function NewEventForm() {
 
     return (
         <div>
+            <div className="event-form-header">
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => navigate(`/my-trips/${tripId || id}`)}
+                    >
+                    ← Back to Trip
+                </button>
+            </div>
+            <h1 className="form-title">{trip.name}</h1>
             <Formik
                 initialValues={initialValues}
                 validationSchema={EventSchema}
@@ -90,6 +104,18 @@ function NewEventForm() {
                     <>
                     
                         <Form className="event-form">
+                            <div className="event-place-heading">
+                                {eventPlace ? (
+                                    <>
+                                        <h2>New Event in {eventPlace.name}</h2>
+                                        <p className="event-place-address">{eventPlace.address}</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <h2>New Event</h2>
+                                    </>
+                                )}
+                            </div>
                             <label htmlFor="title">Title</label>
                             <Field name="title" type="text" placeholder="Ex: Rehearsal Dinner" />
                             <ErrorMessage name="title" component="div" className="error" />
@@ -130,12 +156,12 @@ function NewEventForm() {
                                 <>
                                     <div className="place-section">
                                         <label htmlFor="place">Place</label>
-                                        <button type="button" onClick={() => setShowPlaceModal(true)}>
-                                            {selectedPlace ? 'Change Place' : 'Select Place'}
-                                        </button>
                                         {selectedPlace && (
                                             <p><strong>{selectedPlace.name}</strong><br />{selectedPlace.address}</p>
                                         )}
+                                        <button type="button" className="toggle-new-place-button" onClick={() => setShowPlaceModal(true)}>
+                                            {selectedPlace ? 'Change Place' : 'Select Place'}
+                                        </button>
                                         <ErrorMessage name="place" component="div" className="error" />
                                     </div>
                                 </>
