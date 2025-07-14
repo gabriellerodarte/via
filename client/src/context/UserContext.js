@@ -134,9 +134,7 @@ function UserProvider({ children }) {
     }
 
     const addEvent = async (newEvent) => {
-        console.log('inside add event call')
         try {
-            console.log('test')
             const r = await fetch(`/events`, {
                 method: 'POST',
                 headers: {
@@ -145,10 +143,38 @@ function UserProvider({ children }) {
                 credentials: 'include',
                 body: JSON.stringify(newEvent)
             })
-            console.log('here')
             if (r.ok) {
                 const newEventData = await r.json()
-                console.log(newEventData)
+                setUserTrips(prev => (
+                    prev.map(trip => {
+                        if (trip.id !== newEventData.trip.id) return trip
+                        const placeExists = trip.places.find(p => p.id === newEventData.place.id)
+                        if (placeExists) {
+                            const updatedPlaces = trip.places.map(p => {
+                                if (p.id === newEventData.place.id) {
+                                    return {
+                                        ...p,
+                                        events: [...p.events, newEventData]
+                                    }
+                                }
+                                return p
+                            })
+
+                            return {
+                                ...trip,
+                                places: updatedPlaces
+                            }
+                        } else {
+                            return {
+                                ...trip,
+                                places: [...trip.places, {
+                                    ...newEventData.place,
+                                    events: [newEventData]
+                                }]
+                            }
+                        }
+                    }))
+                )
                 return { success: true }
             } else {
                 const errorData = await r.json()
@@ -160,22 +186,6 @@ function UserProvider({ children }) {
         }
     }
     // login to add event to trip under place
-    // setUserTrips(prev => 
-    //     prev.map(trip => {
-    //         if (trip.id !== newEventData.trip_id) return trip
-
-    //         const placeExists = trip.places.find(p => p.id === newEventData.place_id)
-    //         if (placeExists) {
-    //             // add event to place
-    //         } else {
-    //             //add place and event
-    //             const newPlace = {
-    //                 ...newEventData.place,
-    //                 events: [newEventData]
-    //             }
-    //         }
-    //     })
-    // )
 
     return (
         <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip, addEvent }}>

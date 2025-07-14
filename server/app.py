@@ -10,7 +10,7 @@ from sqlalchemy.orm import joinedload
 # Local imports
 from config import app, db, api, login_manager
 from models import User, Trip, Place, Event
-from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema
+from schemas import UserSchema, TripSchema, PlaceWithEventsSchema, EventSchema, PlaceSchema, NewEventSchema
 
 user_schema = UserSchema()
 trip_schema = TripSchema()
@@ -19,6 +19,7 @@ places_schema = PlaceSchema(many=True)
 placewithevent_schema = PlaceWithEventsSchema()
 placeswithevent_schema = PlaceWithEventsSchema(many=True)
 event_schema = EventSchema()
+new_event_schema = NewEventSchema()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -194,7 +195,7 @@ class EventResource(Resource):
 
             db.session.commit()
 
-            return event_schema.dump(new_event), 200
+            return new_event_schema.dump(new_event), 200
         except Exception as e:
             return {'error': str(e)}, 500
             

@@ -70,7 +70,6 @@ function NewEventForm() {
                 initialValues={initialValues}
                 validationSchema={EventSchema}
                 onSubmit={async (values, { setSubmitting, setErrors }) => {
-                    console.log("Event form submitted")
                     try {
                         const newEvent = {
                             title: values.title,
@@ -81,16 +80,10 @@ function NewEventForm() {
                             place_id: parseInt(values.place),
                             trip_id: parseInt(values.trip),
                         }
-                        console.log('try block run')
                         const result = await addEvent(newEvent)
-                        console.log('result returned')
                         if (result.success) {
-                            console.log('result success')
-                            console.log("event successfully created!")
-                            // navigate to the trip details page!!!
                             navigate(`/my-trips/${tripId ? tripId : id}`)
                         } else {
-                            console.log('errors')
                             setErrors({ general: result.error })
                         }
                     } catch (err) {
