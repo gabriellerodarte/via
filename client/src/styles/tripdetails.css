@@ -55,7 +55,7 @@
   margin: 1.5rem auto 2rem;
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
-  background: #1a1a1a;
+  background: #82c4ff;
   color: white;
   border: none;
   border-radius: 6px;
@@ -64,7 +64,7 @@
 }
 
 .add-event-button:hover {
-  background: #333;
+  background: #6eaadf;
 }
 
 .itinerary-section {
@@ -135,7 +135,7 @@
   padding-left: 0;
 }
 
-.place-card button {
+/* .place-card button {
   margin-top: 1rem;
   padding: 0.4rem 1rem;
   background-color: #1a1a1a;
@@ -144,8 +144,99 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
-}
+} */
 
 .place-card button:hover {
-  background-color: #333;
+  background-color: #6eaadf;
+}
+
+.event-card {
+    background-color: #fffefd; /* warm peachy cream */
+    border: 1px solid #d0eaf3;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 18px;
+    list-style: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.event-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+    color: #3b3b3b;
+}
+
+.event-location,
+.event-time {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.confirmed {
+    background-color: #7ed6a6; /* fresh mint green */
+}
+
+.status-badge.tentative {
+    background-color: #f7b267; /* mellow mango */
+}
+
+.event-card-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    color: white;
+}
+
+.edit-btn {
+    background-color: #82c4ff; /* soft sky blue */
+}
+
+.edit-btn:hover {
+    background-color: #62a8f5;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: #ff7f7f; /* soft red-pink */
+}
+
+.delete-btn:hover {
+    background-color: #ff5c5c;
+    transform: scale(1.05);
 }

@@ -185,10 +185,56 @@ function UserProvider({ children }) {
             return { success: false, error: "An unexpected error occurred while creating event. Please try again."}
         }
     }
+
+        const updateEvent = async (updatedEvent) => {
+        try {
+            const r = await fetch(`/events/${updatedEvent.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(updatedEvent)
+            })
+            if (r.ok) {
+                setLoading(true)
+                const updatedEventData = await r.json()
+                setUserTrips(prevTrips => 
+                    prevTrips.map(t => {
+                        if (t.id !== updatedEventData.trip.id) return t
+
+                        return {
+                            ...t,
+                            places: t.places.map(p => {
+                                if (p.id !== updatedEventData.place.id) return p
+
+                                return {
+                                    ...p,
+                                    events: p.events.map(e =>
+                                        e.id === updatedEventData.id ? updatedEventData : e
+                                    )
+                                }
+                            })
+                        }
+                    })
+                )
+                return { success: true }
+            } else {
+                const errorData = await r.json()
+                return { success: false, error: errorData.error || "Failed to update event." }
+            }
+        } catch (err) {
+            console.log("Error updating event:", err)
+            return { success: false, error: "An unexpected error occurred while updating event. Please try again."}
+        } finally {
+            setLoading(false)
+        }
+    }
+
     // login to add event to trip under place
 
     return (
-        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip, addEvent }}>
+        <UserContext.Provider value={{ user, userTrips, loading, signupUser, loginUser, logoutUser, createTrip, addEvent, updateEvent }}>
             {children}
         </UserContext.Provider>
     )

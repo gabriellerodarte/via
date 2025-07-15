@@ -16,3 +16,15 @@
 body {
   padding-bottom: 3rem; /* matches footer height */
 }
+
+/* Base button styles */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  color: white;
+}

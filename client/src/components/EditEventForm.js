@@ -1,26 +1,23 @@
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
-import { Check } from "lucide-react";
-import "../styles/eventform.css"
-import { useContext, useEffect, useState } from "react";
-import { PlaceContext } from "../context/PlaceContext";
-import PlaceSelectorModal from "./PlaceSelectorModal";
-import { UserContext } from "../context/UserContext";
+import { Formik, Form, Field, ErrorMessage,  } from 'formik';
+import { UserContext } from '../context/UserContext';
+import { Check } from 'lucide-react';
 
-function NewEventForm() {
-    const { id, tripId } = useParams()
-    const { userTrips, addEvent } = useContext(UserContext)
-    const [selectedPlace, setSelectedPlace] = useState(null)
-    const [showPlaceModal, setShowPlaceModal] = useState(false)
+function EditEventForm() {
+    const { tripId, placeId, id } = useParams()
+    const { userTrips, updateEvent } = useContext(UserContext)
     const navigate = useNavigate()
+    
+    const editTrip = userTrips.find(t => t.id === parseInt(tripId))
+    if (!editTrip) return <p>Trip not found</p>
+    const editPlace = editTrip?.places?.find(p => p.id === parseInt(placeId))
+    if (!editPlace) return <p>Place not found</p>
+    const editEvent = editPlace?.events?.find(e => e.id === parseInt(id))
+    if (!editEvent) return <p>Event not found</p>
 
-    const trip = userTrips.find(trip => {
-        return trip.id === parseInt(tripId || id)
-    })
-    const eventPlace = trip.places?.find(place => place.id === parseInt(id))
-
-    const EventSchema = Yup.object().shape({
+    const UpdateEventSchema = Yup.object().shape({
         title: Yup.string().required("Event title is required"),
         planning_status: Yup.string()
         .oneOf(['confirmed', 'tentative'], 'Must be confirmed or tentative')
@@ -39,19 +36,17 @@ function NewEventForm() {
             if (!start_time || !value) return true
             return new Date(value) > new Date(start_time)
         }),
-        place: !tripId 
-        ? Yup.string().required('Please select a place or add a new one') 
-        : Yup.string(),
+        place: Yup.string().required('Please select a place or add a new one') 
     })
     
     const initialValues = {
-        title: '',
-        planning_status: 'confirmed',
-        location: '',
-        start_time: '',
-        end_time: '',
-        place: tripId ? id : '',
-        trip: tripId ? tripId: id
+        title: editEvent.title,
+        planning_status: editEvent.planning_status,
+        location: editEvent.location,
+        start_time: editEvent.start_time,
+        end_time: editEvent.end_time,
+        place: placeId,
+        trip: tripId
     }
 
     return (
@@ -60,29 +55,30 @@ function NewEventForm() {
                 <button
                     type="button"
                     className="back-button"
-                    onClick={() => navigate(`/my-trips/${tripId || id}`)}
+                    onClick={() => navigate(`/my-trips/${tripId}`)}
                     >
                     ← Back to Trip
                 </button>
             </div>
-            <h1 className="form-title">{trip.name}</h1>
+            <h1 className="form-title">{editTrip.name}</h1>
             <Formik
                 initialValues={initialValues}
-                validationSchema={EventSchema}
+                validationSchema={UpdateEventSchema}
                 onSubmit={async (values, { setSubmitting, setErrors }) => {
                     try {
-                        const newEvent = {
+                        const updatedEvent = {
+                            id: id,
                             title: values.title,
                             planning_status: values.planning_status,
                             location: values.location,
                             start_time: values.start_time,
                             end_time: values.end_time,
-                            place_id: parseInt(values.place),
-                            trip_id: parseInt(values.trip),
+                            place_id: parseInt(placeId),
+                            trip_id: parseInt(tripId)
                         }
-                        const result = await addEvent(newEvent)
+                        const result = await updateEvent(updatedEvent)
                         if (result.success) {
-                            navigate(`/my-trips/${tripId ? tripId : id}`)
+                            navigate(`/my-trips/${tripId}`)
                         } else {
                             setErrors({ general: result.error })
                         }
@@ -98,22 +94,14 @@ function NewEventForm() {
                     
                         <Form className="event-form">
                             <div className="event-place-heading">
-                                {eventPlace ? (
-                                    <>
-                                        <h2>New Event in {eventPlace.name}</h2>
-                                        <p className="event-place-address">{eventPlace.address}</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <h2>New Event</h2>
-                                    </>
-                                )}
+                                <h2>Edit Event - {editPlace.name}</h2>
+                                <p>{editPlace.address}</p>
                             </div>
                             <label htmlFor="title">Title</label>
                             <Field name="title" type="text" placeholder="Ex: Rehearsal Dinner" />
                             <ErrorMessage name="title" component="div" className="error" />
 
-                            <label>Planning Status</label>
+                            <label htmlFor='planning_status'>Planning Status</label>
                             <div className="status-toggle">
                                 {["confirmed", "tentative"].map((status) => (
                                 <button
@@ -145,32 +133,9 @@ function NewEventForm() {
                             <Field name="end_time" type="datetime-local" step="60"/>
                             <ErrorMessage name="end_time" component="div" className="error" />
 
-                            {!tripId && (
-                                <>
-                                    <div className="place-section">
-                                        <label htmlFor="place">Place</label>
-                                        {selectedPlace && (
-                                            <p><strong>{selectedPlace.name}</strong><br />{selectedPlace.address}</p>
-                                        )}
-                                        <button type="button" className="toggle-new-place-button" onClick={() => setShowPlaceModal(true)}>
-                                            {selectedPlace ? 'Change Place' : 'Select Place'}
-                                        </button>
-                                        <ErrorMessage name="place" component="div" className="error" />
-                                    </div>
-                                </>
-                            )}
                             {errors.general && <div className="error">{errors.general}</div>}
-                            <button type="submit">Add Event</button>                    
+                            <button type="submit">Update Event</button>                    
                         </Form>
-                        <PlaceSelectorModal
-                            show={showPlaceModal}
-                            onClose={() => setShowPlaceModal(false)}
-                            onPlaceSelect={(place) => {
-                                setSelectedPlace(place)
-                                setFieldValue('place', place.id)
-                                setShowPlaceModal(false)
-                            }}
-                        />
                     </>
                 )}
             </Formik>
@@ -178,4 +143,4 @@ function NewEventForm() {
     )
 }
 
-export default NewEventForm
+export default EditEventForm

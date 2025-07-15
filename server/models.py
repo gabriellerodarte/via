@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     trips = db.relationship('Trip', back_populates='user', cascade='all, delete-orphan')
+    events = association_proxy('trips', 'events')
 
     @validates("username")
     def validate_username(self, key, value):
@@ -117,6 +118,7 @@ class Event(db.Model):
 
     trip = db.relationship('Trip', back_populates='events')
     place = db.relationship('Place', back_populates='events')
+    user = association_proxy('trip', 'user')
 
     __table_args__ = (
         db.CheckConstraint(

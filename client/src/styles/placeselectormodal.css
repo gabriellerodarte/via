@@ -55,7 +55,7 @@
 
 .add-place-button {
   margin-top: 1rem;
-  background-color: #4b9ed6;
+  background-color: #82c4ff;
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -65,7 +65,7 @@
 }
 
 .add-place-button:hover {
-  background-color: #3b8dc3;
+  background-color: #6eaadf;
 }
 
 .place-search {

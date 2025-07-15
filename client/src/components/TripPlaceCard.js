@@ -7,6 +7,10 @@ function TripPlaceCard({ place }) {
     const { name, address, events } = place
     const navigate = useNavigate()
 
+    const handleEdit = async (event) => {
+        navigate(`/my-trips/${id}/places/${place.id}/events/${event.id}/edit`)
+    }
+
     return (
         <div className="place-card">
             <h3>{name}</h3>
@@ -14,10 +18,10 @@ function TripPlaceCard({ place }) {
 
             <ul className="event-list">
                 {place.events.map(event => (
-                    <EventCard key={event.id} event={event}/>
+                    <EventCard key={event.id} event={event} onEdit={handleEdit}/>
                 ))}
             </ul>
-            <button onClick={() => navigate(`/my-trips/${id}/places/${place.id}/new-event`)}>New Event in {name}</button>
+            <button className="add-event-button" onClick={() => navigate(`/my-trips/${id}/places/${place.id}/new-event`)}>New Event in {name}</button>
         </div>
     )
 }

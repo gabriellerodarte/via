@@ -202,26 +202,39 @@ class EventResource(Resource):
 class EventById(Resource):
     @login_required
     def patch(self, id):
-        event = current_user.events.filter_by(id=id).first()
+
+        event = Event.query.join(Trip).filter(Event.id==id, Trip.user_id == current_user.id).first()
 
         if not event:
-            return {'error': 'Event not found'}, 404
+                return {'error': 'Event not found or unauthorized'}, 404
 
         try:
             data = request.get_json()
+
             for attr, value in data.items():
-                setattr(event, attr, value)
+                if attr in ['start_time', 'end_time']:
+                    if value:
+                        try:
+                            parsed = datetime.fromisoformat(value)
+                            parsed = parsed.replace(second=0, microsecond=0)
+                            # parsed = datetime.strptime(value, '%Y-%m-%dT%H:%M')
+                        except ValueError:
+                            return {'error': f'Invalid datetime format for {attr}'}, 400
+                        setattr(event, attr, parsed)
+                    else:
+                        setattr(event, attr, None)
+                elif hasattr(event, attr):
+                    setattr(event, attr, value)
             
-            db.session.add(event)
             db.session.commit()
 
-            return event_schema.dump(event), 200
+            return new_event_schema.dump(event), 200
         except Exception as e:
             return {'error': str(e)}, 500
     
     @login_required
     def delete(self, id):
-        event = current_user.events.filter_by(id=id).first()
+        event = current_user.events.filter_by(id=event_id).first()
         # will this work ?? can i access events directly since its flask login?
         if not event:
             return {'error': 'Event not found'}, 404

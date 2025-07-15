@@ -55,7 +55,7 @@
 .trip-form button {
   margin-top: 1.5rem;
   padding: 0.75rem;
-  background-color: #4b9ed6;
+  background-color: #82c4ff;
   color: #fff;
   font-weight: 600;
   font-size: 0.95rem;
@@ -66,7 +66,7 @@
 }
 
 .trip-form button:hover {
-  background-color: #3a8bc3;
+  background-color: #6eaadf;
 }
 
 .date-fields {
