@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import { formatTripDates, getCountdown } from "../utils/dateHelpers"
 import { CalendarDays, MapPin } from "lucide-react"
@@ -12,7 +12,7 @@ function TripDetails() {
     const { userTrips } = useContext(UserContext)
     const trip = userTrips.find(trip => trip.id === parseInt(id))
 
-    if (!trip) return <p className="error">Trip not found</p>
+    if (!trip) return <Navigate to="/my-trips"/>
 
     const { name, start_date, end_date, places } = trip
     const formattedDates = formatTripDates(start_date, end_date)

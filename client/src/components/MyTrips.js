@@ -3,7 +3,7 @@ import { UserContext } from "../context/UserContext";
 import TripSection from "./TripSection";
 import { getCurrentTrips, getUpcomingTrips, getPastTrips } from "../utils/tripFilters";
 import "../styles/mytrips.css"
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function MyTrips() {
     const { userTrips } = useContext(UserContext)

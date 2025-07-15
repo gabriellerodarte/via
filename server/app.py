@@ -75,8 +75,6 @@ class Login(Resource):
 class CheckSession(Resource):
     @login_required
     def get(self):
-        print("Is authenticated: ", current_user.is_authenticated)
-        print("Current user JSON: ", user_schema.dump(current_user))
         return user_schema.dump(current_user), 200
 
 class Logout(Resource):
@@ -217,7 +215,6 @@ class EventById(Resource):
                         try:
                             parsed = datetime.fromisoformat(value)
                             parsed = parsed.replace(second=0, microsecond=0)
-                            # parsed = datetime.strptime(value, '%Y-%m-%dT%H:%M')
                         except ValueError:
                             return {'error': f'Invalid datetime format for {attr}'}, 400
                         setattr(event, attr, parsed)
@@ -234,17 +231,21 @@ class EventById(Resource):
     
     @login_required
     def delete(self, id):
-        event = current_user.events.filter_by(id=event_id).first()
-        # will this work ?? can i access events directly since its flask login?
+        event = Event.query.join(Trip).filter(Event.id==id, Trip.user_id == current_user.id).first()
+
         if not event:
             return {'error': 'Event not found'}, 404
+
+        trip = event.trip
+        place = event.place
         
         try:
             db.session.delete(event)
             db.session.commit()
 
-            # check if last event (check within current user ? not all?)
-            if not Event.query.filter_by(trip_id=trip.id, place_id=place.id).first():
+            remaining_events = Event.query.filter_by(trip_id=trip.id, place_id=place.id).count()
+
+            if remaining_events == 0:
                 trip.places.remove(place)
                 db.session.commit()
 
