@@ -25,8 +25,25 @@ export function getCountdown(startDateStr) {
 }
 
 export function formatTimeRange(start, end) {
-    const options = { hour: "numeric", minute: "2-digit" }
-    const startTime = new Date(start).toLocaleTimeString([], options)
-    const endTime = end ? new Date(end).toLocaleTimeString([], options) : null
-    return endTime ? `${startTime} - ${endTime}` : startTime
+  if (!start) return "";
+
+  const startDate = new Date(start);
+  const endDate = end ? new Date(end) : null;
+
+  const dateOptions = { month: "short", day: "numeric", year: "numeric" };
+  const timeOptions = { hour: "numeric", minute: "2-digit" };
+
+  const sameDay =
+    endDate &&
+    startDate.toDateString() === endDate.toDateString();
+
+  if (!endDate) {
+    return `${startDate.toLocaleDateString(undefined, dateOptions)} • ${startDate.toLocaleTimeString(undefined, timeOptions)}`;
+  }
+
+  if (sameDay) {
+    return `${startDate.toLocaleDateString(undefined, dateOptions)} • ${startDate.toLocaleTimeString(undefined, timeOptions)}–${endDate.toLocaleTimeString(undefined, timeOptions)}`;
+  } else {
+    return `${startDate.toLocaleDateString(undefined, dateOptions)} • ${startDate.toLocaleTimeString(undefined, timeOptions)} → ${endDate.toLocaleDateString(undefined, dateOptions)} • ${endDate.toLocaleTimeString(undefined, timeOptions)}`;
+  }
 }

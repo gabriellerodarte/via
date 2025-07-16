@@ -86,7 +86,7 @@ class Place(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    address = db.Column(db.String, unique=True, nullable=False)
+    address = db.Column(db.String, nullable=False)
 
     events = db.relationship('Event', back_populates='place')
     trips = db.relationship('Trip', secondary=trip_place_association, back_populates='places')

@@ -17,21 +17,6 @@ function TripPlaceCard({ place, onDelete }) {
     const handleDelete = (eventId) => {
         onDelete(place.id, eventId)
     }
-    // const handleDelete = async (eventId) => {
-    //     try {
-    //         const result = await deleteEvent(id, place.id, eventId)
-
-    //         if (result.success) {
-    //                 console.log("Event successfully deleted")
-    //         } else {
-    //                 const errorData = result.error
-    //                 console.log("Error deleting event", errorData)
-    //         }
-    //     } catch (err) {
-    //         console.log('error', err.error)
-    //     } 
-
-    // }
 
     return (
         <div className="place-card">
