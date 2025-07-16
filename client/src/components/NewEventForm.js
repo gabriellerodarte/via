@@ -2,11 +2,12 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { Check } from "lucide-react";
-import "../styles/eventform.css"
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
 import { PlaceContext } from "../context/PlaceContext";
 import PlaceSelectorModal from "./PlaceSelectorModal";
-import { UserContext } from "../context/UserContext";
+import { toDateTimeLocal } from "../utils/dateHelpers";
+import "../styles/eventform.css"
 
 function NewEventForm() {
     const { id, tripId } = useParams()
@@ -20,6 +21,9 @@ function NewEventForm() {
     })
     const eventPlace = trip.places?.find(place => place.id === parseInt(id))
 
+    const tripStart = toDateTimeLocal(trip.start_date)
+    const tripEnd = toDateTimeLocal(trip.end_date)
+
     const EventSchema = Yup.object().shape({
         title: Yup.string().required("Event title is required"),
         planning_status: Yup.string()
@@ -29,11 +33,15 @@ function NewEventForm() {
         start_time: Yup.date()
         .nullable()
         .typeError('Start time must be a valid date/time')
-        .notRequired(),
+        .notRequired()
+        .min(new Date(trip.start_date), "Start must be after trip start")
+        .max(new Date(trip.end_date), "Start must be before trip end"),
         end_time: Yup.date()
         .nullable()
         .typeError('Start time must be a valid date/time')
         .notRequired()
+        .min(Yup.ref("start_time"), "End must be after start")
+        .max(new Date(trip.end_date), "End must be before trip end")
         .test('is_after_start', 'End time must be after start time', function (value) {
             const { start_time } = this.parent
             if (!start_time || !value) return true
@@ -138,11 +146,11 @@ function NewEventForm() {
                             <ErrorMessage name="location" component="div" className="error" />
 
                             <label htmlFor="start_time">Start Time</label>
-                            <Field name="start_time" type="datetime-local" step="60"/>
+                            <Field name="start_time" type="datetime-local" min={tripStart} max={tripEnd} step="60"/>
                             <ErrorMessage name="start_time" component="div" className="error" />
 
                             <label htmlFor="end_time">End Time</label>
-                            <Field name="end_time" type="datetime-local" step="60"/>
+                            <Field name="end_time" type="datetime-local" min={tripStart} max={tripEnd} step="60"/>
                             <ErrorMessage name="end_time" component="div" className="error" />
 
                             {!tripId && (
