@@ -11,11 +11,13 @@ import About from "./components/About";
 import TripDetails from "./components/TripDetails";
 import NewEventForm from "./components/NewEventForm";
 import EditEventForm from "./components/EditEventForm";
+import ErrorPage from "./components/ErrorPage";
 
 const routes = [
     {
         path: "/",
         element: <App/>,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 path: "/",
