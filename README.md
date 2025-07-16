@@ -113,13 +113,6 @@ Includes methods for password hashing and validation via `bcrypt`.
   - Belongs to `place`  
   - Inherits `user` through trip relationship
 
-
----
-
-
-#### Serialization
-- Avoids nesting cocktail and user data for leaner API responses.
-
 ---
 
 ## Frontend Files
