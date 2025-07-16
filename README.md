@@ -1,4 +1,4 @@
-# via. 🍸
+# via. 
 
 **via.** is a full-stack travel and trip planning app built with Flask and React. It allows users to create custom trips and build out detailed itineraries by associating places and planned events. Each trip includes a start/end date, a name, and a collection of associated places with events like meals, activities, or travel legs.
 
