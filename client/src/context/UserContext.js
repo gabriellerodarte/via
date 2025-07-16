@@ -7,8 +7,6 @@ function UserProvider({ children }) {
     const [userTrips, setUserTrips] = useState([])
     const [loading, setLoading] = useState(true)
 
-    console.log(userTrips)
-
     const checkSession = async () => {
         try {
             const r = await fetch('/check_session', {
@@ -240,7 +238,6 @@ function UserProvider({ children }) {
                 credentials: 'include'
             })
             if (r.ok) {
-                console.log(tripId, placeId, eventId)
                 setUserTrips(prev => 
                     prev.map(t => {
                         if (t.id !== parseInt(tripId)) return t

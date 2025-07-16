@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import { formatTripDates, getCountdown } from "../utils/dateHelpers"
@@ -9,7 +9,9 @@ import "../styles/tripdetails.css"
 function TripDetails() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const { userTrips } = useContext(UserContext)
+    const { userTrips, deleteEvent } = useContext(UserContext)
+    const [deleteIDs, setDeleteIDs] = useState(null)
+    const [showModal, setShowModal] = useState(false)
     
     const trip = userTrips.find(trip => trip.id === parseInt(id))
 
@@ -18,6 +20,31 @@ function TripDetails() {
     const { name, start_date, end_date, places } = trip
     const formattedDates = formatTripDates(start_date, end_date)
     const daysAway = getCountdown(start_date)
+
+    const handleConfirmDelete = (placeId, eventId) => {
+        setDeleteIDs({
+            placeId: placeId,
+            eventId: eventId
+        })
+        setShowModal(true)
+    }
+
+    const handleDelete = async () => {
+        try {
+            const result = await deleteEvent(id, deleteIDs.placeId, deleteIDs.eventId)
+
+            if (result.success) {
+                setShowModal(false)
+                console.log("Event successfully deleted")
+            } else {
+                    const errorData = result.error
+                    console.log("Error deleting event", errorData)
+            }
+        } catch (err) {
+            console.log('error', err.error)
+        } 
+
+    }
 
     return (
         <div className="trip-details">
@@ -51,12 +78,33 @@ function TripDetails() {
                 ) : (
                     <>
                         {places.map(place => (
-                            <TripPlaceCard key={place.id} place={place}/>
+                            <TripPlaceCard key={place.id} place={place} onDelete={handleConfirmDelete}/>
                         )
                         )}
                     </>
                 )}
             </section>
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h4>Delete this event?</h4>
+                        <p>This action cannot be undone.</p>
+                        <div className="modal-buttons">
+                            <button className="confirm" onClick={handleDelete}>Delete</button>
+                            <button 
+                                className="cancel" 
+                                onClick={() => {
+                                    setShowModal(false)
+                                    setDeleteIDs(null)
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </div>
   )}

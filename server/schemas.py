@@ -36,13 +36,6 @@ class PlaceWithEventsSchema(ma.SQLAlchemySchema):
 placewithevent_schema = PlaceWithEventsSchema()
 placewithevents_schema = PlaceWithEventsSchema(many=True)
 
-# class TripPlaceSchema(ma.SQLAlchemySchema):
-#     class Meta:
-#         model = Event
-        
-#     id = ma.auto_field()
-#     place = ma.Nested(PlaceSchema)
-
 class TripSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Trip
@@ -52,7 +45,6 @@ class TripSchema(ma.SQLAlchemySchema):
     name = ma.auto_field()
     start_date = ma.auto_field()
     end_date = ma.auto_field()
-    # places = ma.Pluck(TripPlaceSchema, 'place', many=True)
     places = ma.Method("get_trip_places")
 
     def get_trip_places(self, trip):

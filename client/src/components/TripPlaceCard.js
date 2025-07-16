@@ -4,35 +4,34 @@ import { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 
 
-function TripPlaceCard({ place }) {
+function TripPlaceCard({ place, onDelete }) {
     const { id } = useParams()
     const { deleteEvent } = useContext(UserContext)
     const { name, address, events } = place
     const navigate = useNavigate()
 
-    const handleEdit = async (event) => {
+    const handleEdit = (event) => {
         navigate(`/my-trips/${id}/places/${place.id}/events/${event.id}/edit`)
     }
 
-    useEffect(() => {
-        console.log("TripPlaceCard rerendered with events:", events)
-    }, [events])
-
-    const handleDelete = async (eventId) => {
-        try {
-            const result = await deleteEvent(id, place.id, eventId)
-
-            if (result.success) {
-                    console.log("Event successfully deleted")
-            } else {
-                    const errorData = result.error
-                    console.log("Error deleting event", errorData)
-            }
-        } catch (err) {
-            console.log('error', err.error)
-        } 
-
+    const handleDelete = (eventId) => {
+        onDelete(place.id, eventId)
     }
+    // const handleDelete = async (eventId) => {
+    //     try {
+    //         const result = await deleteEvent(id, place.id, eventId)
+
+    //         if (result.success) {
+    //                 console.log("Event successfully deleted")
+    //         } else {
+    //                 const errorData = result.error
+    //                 console.log("Error deleting event", errorData)
+    //         }
+    //     } catch (err) {
+    //         console.log('error', err.error)
+    //     } 
+
+    // }
 
     return (
         <div className="place-card">
