@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import EventCard from "./EventCard"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 
 
@@ -13,6 +13,10 @@ function TripPlaceCard({ place }) {
     const handleEdit = async (event) => {
         navigate(`/my-trips/${id}/places/${place.id}/events/${event.id}/edit`)
     }
+
+    useEffect(() => {
+        console.log("TripPlaceCard rerendered with events:", events)
+    }, [events])
 
     const handleDelete = async (eventId) => {
         try {
@@ -36,7 +40,7 @@ function TripPlaceCard({ place }) {
             <p className="place-address">{address}</p>
 
             <ul className="event-list">
-                {place.events.map(event => (
+                {events.map(event => (
                     <EventCard key={event.id} event={event} onEdit={handleEdit} onDelete={handleDelete}/>
                 ))}
             </ul>

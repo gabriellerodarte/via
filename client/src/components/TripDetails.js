@@ -10,6 +10,7 @@ function TripDetails() {
     const { id } = useParams()
     const navigate = useNavigate()
     const { userTrips } = useContext(UserContext)
+    
     const trip = userTrips.find(trip => trip.id === parseInt(id))
 
     if (!trip) return <Navigate to="/my-trips"/>

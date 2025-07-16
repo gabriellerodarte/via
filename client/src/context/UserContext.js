@@ -7,6 +7,8 @@ function UserProvider({ children }) {
     const [userTrips, setUserTrips] = useState([])
     const [loading, setLoading] = useState(true)
 
+    console.log(userTrips)
+
     const checkSession = async () => {
         try {
             const r = await fetch('/check_session', {
@@ -235,30 +237,25 @@ function UserProvider({ children }) {
         try {
             const r = await fetch(`/events/${eventId}`, {
                 method: 'DELETE',
+                credentials: 'include'
             })
             if (r.ok) {
+                console.log(tripId, placeId, eventId)
                 setUserTrips(prev => 
                     prev.map(t => {
-                        if (t.id !== tripId) return t
+                        if (t.id !== parseInt(tripId)) return t
 
-                        return {
-                            ...t,
-                            places: t.places.map(p => {
-                                if (p.id !== placeId) return p
+                        const updatedPlaces = t.places.map(p => {
+                            if (p.id !== parseInt(placeId)) return p
 
-                                const updatedEvents = p.events.filter(e => e.id !== eventId)
+                            const updatedEvents = p.events.filter(e => e.id !== parseInt(eventId))
 
-                                if (updatedEvents.length === 0) return null
-
-                                return {
-                                    ...p,
-                                    events: updatedEvents
-                                }
-                            })
-                            .filter(Boolean)
-                        }
-                    }
-                    )
+                            return updatedEvents.length > 0
+                                ? {...p, events: updatedEvents}
+                                : null
+                        }).filter(p => p !== null)
+                        return {...t, places: updatedPlaces}
+                    })
                 )
                 return { success: true }
             } else {
