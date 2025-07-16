@@ -22,13 +22,14 @@ function NewPlaceForm({ onSuccess }) {
             <Formik
                 initialValues={initialValues}
                 validationSchema={PlaceSchema}
-                onSubmit={async (values, { setSubmitting, setErrors }) => {
+                onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
                     console.log("Submitting values:", values)
                     try {
                         const result = await createPlace(values)
                         if (result.success) {
                             console.log("Place successfully created!")
                             if (onSuccess) onSuccess(result.newPlace)
+                            resetForm()    
                         } else {
                             setErrors({ general: result.error })
                         }
