@@ -90,7 +90,6 @@ function TripDetails() {
                         <h4>Delete this event?</h4>
                         <p>This action cannot be undone.</p>
                         <div className="modal-buttons">
-                            <button className="confirm" onClick={handleDelete}>Delete</button>
                             <button 
                                 className="cancel" 
                                 onClick={() => {
@@ -100,6 +99,7 @@ function TripDetails() {
                             >
                                 Cancel
                             </button>
+                            <button className="confirm" onClick={handleDelete}>Delete</button>
                         </div>
                     </div>
                 </div>

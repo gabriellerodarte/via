@@ -9,7 +9,6 @@ function App() {
   const { user, loading } = useContext(UserContext)
   
   if (loading) {
-    // insert Loading spinner or page or something
     return <p>Loading user session...</p>
   }
 
